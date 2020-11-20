@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sr Cobranza</title>
+    <!-- CSS Boostrap -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- CSS de los Icons Social -->
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="stylesheet" href="../css/docs.css">
+    <link rel="stylesheet" href="../css/bootstrap-social.css">
+
+    <!-- CSS Propio -->
+    <link rel="stylesheet" href="../css/cusstom.css">
+</head>
+<body>
+    <!-- Barra de Navegacion, en esta pagina no apareceria -->
+    <div class="container-fluid w-100 container-style">
+        <div class="row align-items-center headline">
+            <div class="col col-md-2 w-25">
+                <img class="img-fluid"src="../images/logo.png" alt="Logo Sr Cobranza">
+            </div>
+            <div class="col col-md-8 w-75">
+                <p class="text-center title">Sr Cobranza</p>
+            </div>
+            <div class="col col-md-2 w-25">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ModalLoginForm">
+                    <img src="../images/login.svg" alt="" width="32" height="32" title="ENTRAR">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrousel Informativo -->
+    <div class="row justify-content-center">
+        <div id="srcarrousel" class="carousel slide w-75" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#srcarrousel" data-slide-to="0" class="active"></li>
+                <li data-target="#srcarrousel" data-slide-to="1"></li>
+                <li data-target="#srcarrousel" data-slide-to="2"></li>
+                <li data-target="#srcarrousel" data-slide-to="3"></li>
+                <li data-target="#srcarrousel" data-slide-to="4"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../images/cob01.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="text-ligth">Convicción</h3>
+                        <p class="text-ligth">La fuerza que nos caracteriza y nos impulsa.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../images/cob02.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="text-dark">Simpleza</h3>
+                        <p class="text-dark">Nuestros servicios son sencillos, para Uds. y su Cliente.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../images/cob03.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="text-dark">Costos</h3>
+                        <p class="text-dark">El valor exacto de nuestros servicio y el costo justo para su Empresa.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../images/cob04.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="text-dark">Medios de Pago</h3>
+                        <p class="text-dark">La Multiplicidad de opciones para realizar sus cobros nos caracteriza.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../images/cob05.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="text-ligth">Casos de Exito</h3>
+                        <p class="text-ligth">Una de las Entedidas que confian en Nosotros.</p>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#srcarrousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#srcarrousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Pie de Pagina (Footer) -->
+
+    <div class="footer">
+        <div class="social-sizes">
+            <!--Twitter-->
+            <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/dacazabat" target="_blank">
+                <i class="fa fa-twitter"></i>
+            </a>
+            <!-- Facebook -->
+            <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/DanielCazabat/" target="_blank">
+                <i class="fa fa-facebook"></i>
+            </a>
+            <!-- Instragam -->
+            <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/daniel_cazabat/" target="_blank">
+                <i class="fa fa-instagram"></i>
+            </a>
+            <!-- LinkedIn -->
+            <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/daniel-cazabat-92223114b/" target="_blank">
+                <i class="fa fa-linkedin"></i>
+            </a>
+            <!-- Gmail -->
+            <a class="btn btn-social-icon btn-google" href="mailto:dacazabat@gmail.com" target="_blank">
+                <i class="fa fa-google"></i>
+            </a>
+            <!-- GitHub -->
+            <a class="btn btn-social-icon btn-github" href="https://github.com/dcazabat" target="_blank">
+                <i class="fa fa-github"></i>
+            </a>
+        </div>
+        <div class="copy">
+            <i class="fa fa-copyright" aria-hidden="true">
+                Daniel Cazabat - 2020
+            </i>
+        </div>
+  </div>
+
+    <!-- Modal HTML Form de Login -->
+    <div id="ModalLoginForm" class="modal fade">
+        <div class="modal-dialog bg-dark" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Ingreso al Sistema</h1>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="POST" action="../html/socios.html">
+                        <input type="hidden" name="_token" value="">
+                        <div class="form-group">
+                            <label class="control-label">Usuario</label>
+                            <div>
+                                <input type="text" class="form-control input-lg" name="user" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Contraseña</label>
+                            <div>
+                                <input type="password" class="form-control input-lg" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success">
+                                    Aceptar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- JS que corresponde a Boostrap -->
+    <script src="../js/jquery-3.5.1.slim.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+    <!-- JS para Icons Social -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/docs.js"></script>
+</body>
+</html>
