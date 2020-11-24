@@ -22,7 +22,7 @@
             <div class="col col-md-10 w-100">
                 <nav class="navbar navbar-expand-md navbar-dark">
                     <a class="navbar-brand" href="#">
-                        <img class="logo" src="../images/logo.png" alt="Logo Sr Cobranza">
+                        <img class="logo" src="../assest/images/logo.png" alt="Logo Sr Cobranza">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -54,7 +54,7 @@
                             </li>
                             <form class=" my-2 my-lg-0" action="../html/index.html">
                                 <button class="btn btn-danger my-2 my-sm-0" type="submit">
-                                    <img src="../images/logout.svg" alt="SALIR" title="SALIR">
+                                    <img src="../assest/images/logout.svg" alt="SALIR" title="SALIR">
                                 </button>
                             </form>
                         </ul>
@@ -64,36 +64,12 @@
         </div>
 
     <!-- Sector Central para Desarrollo -->
-    <div class="container-fluid w-100">
-        <div class="card-deck">
-            <!-- Carga de los N Socios -->
-            <div class="card align-items-center card-bg-color" style="width: 18rem;">
-                <div class="card-header card-header-style">
-                    Apellido y Nombre
-                </div>
-                <p></p>
-                <img class="card-img-top card-imagen" src="../images/defaultsociomen.png" alt="Foto del Socio">
-                <div class="card-body">
-                    <h5 class="card-title card-title-style">Tipo de Socio</h5>
-                    <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais, Estado Civil, Edad, Fecha de Nacimiento).</p>
-                    <a href="#" class="float-left btn btn-primary">Modificar</a>
-                    <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
-                </div>
-            </div>
-            <div class="card align-items-center card-bg-color" style="width: 18rem;">
-                <div class="card-header card-header-style">
-                    Apellido y Nombre
-                </div>
-                <p></p>
-                <img class="card-img-top card-imagen" src="../images/defaultsociowomen.png" alt="Foto del Socio">
-                <div class="card-body">
-                    <h5 class="card-title card-title-style">Tipo de Socio</h5>
-                    <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais, Estado Civil, Edad, Fecha de Nacimiento).</p>
-                    <a href="#" class="float-left btn btn-primary">Modificar</a>
-                    <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
-                </div>
-            </div>
-        </div>
+    <div class="container-fluid w-100 justify-content-center">
+        <!-- Se muestran los datos en formato table -->
+        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addModal">
+            <img src="../assest/images/add.svg" alt="" width="16" height="16" title="Agregar Socio">  Agregar Socio
+        </button>
+        <div id="tablesoc"></div>
     </div>
 
     <!-- Pie de Pagina (Footer) -->
@@ -131,6 +107,11 @@
             </i>
         </div>
   </div>
+
+  <!-- JS que corresponden a las tablas y funciones -->
+  <script src="../js/utils.js"></script>
+  <script src="../assest/json/data.js"></script>
+  <script src="../js/main.js"></script>
 
 
     <!-- JS que corresponde a Boostrap -->
