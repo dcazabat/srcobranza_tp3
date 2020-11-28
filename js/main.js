@@ -1,9 +1,13 @@
 window.addEventListener("load", () => {
-    DatosTabla("tablesoc", personas);
-  });
+  let tabla = document.getElementById("tablesoc");
+  tabla.setAttribute("class", "table table-striped table-hover");
+  DatosTabla("tablesoc", personas);
+});
 
-  // Creacion de Tabla
-function DatosTabla (tabla, datos) {
-    createTThead(tabla,Object.keys(datos[0]));
-    createTBody(tabla, datos);
-    }
+// Creacion de Tabla
+function DatosTabla(tabla, datos) {
+  createTThead(tabla);
+  createTBody(tabla, datos);
+  btnClicks();
+  AcctionsCheck();
+}

@@ -1,80 +1,89 @@
 body {
-    background-color: black;
+  background-color: black;
 }
 
 .title {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-stretch: narrower;
-    font-size: larger;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-stretch: narrower;
+  font-size: larger;
 }
 
 .commons {
-    height: 100px;
-    text-align: center;
+  height: 100px;
+  text-align: center;
 }
 
 .headline {
-    color: orange;
-    text-align: right;
+  color: orange;
+  text-align: right;
 }
 
 .footer {
-    color: yellow;
-    text-align: center;
-    padding: 20px;
+  color: yellow;
+  text-align: center;
+  padding: 20px;
 }
 
 .copy {
-    font-family: Verdana;
-    font-size: 10px;
-    padding-top: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  padding-top: 25px;
 }
 
 .logo {
-    height: 15vh;
+  height: 15vh;
 }
 
 .card-header-style {
-    background-color: rgb(41, 41, 41);
-    color: orange;
-    height: 20%;
+  background-color: rgb(41, 41, 41);
+  color: orange;
+  height: 20%;
 }
 
 .container-style {
-    padding-bottom: 15px;
+  padding-bottom: 15px;
 }
 
 .card-imagen {
-    height: 150px;
-    width: 150px;
-    border-radius: 150px;
-    border-color: green;
-    border-style: solid;
-    border-width: 2px;
-    opacity:0.4;
-    filter:alpha(opacity=40);
+  height: 150px;
+  width: 150px;
+  border-radius: 150px;
+  border-color: green;
+  border-style: solid;
+  border-width: 2px;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
 
 .card-imagen:hover {
-    opacity:1.0;
-    filter:alpha(opacity=100);
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
 
 .card-title-style {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: rgb(255, 230, 0);
-    font-style: italic;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(255, 230, 0);
+  font-style: italic;
 }
 
 .card-text-style {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: cornflowerblue;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  color: cornflowerblue;
 }
 
 .card-bg-color {
-    background-color: rgb(20, 20, 20);
+  background-color: rgb(20, 20, 20);
 }
 
-#acciones{
-    color:red;
+.align-center {
+  align-content: center;
+}
+
+.copyright-font {
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+}
+.filter-display-none{
+  display: none;
 }

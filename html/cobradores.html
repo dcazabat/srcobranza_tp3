@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +12,24 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="stylesheet" href="../css/docs.css">
     <link rel="stylesheet" href="../css/bootstrap-social.css">
+    <link rel="icon" href="../assest/images/fav-icon.png" type="image/png" />
 
     <!-- CSS Propio -->
     <link rel="stylesheet" href="../css/cusstom.css">
 </head>
+
 <body>
     <!-- Barra de Navegacion -->
     <div class="container-fluid w-100 container-style">
         <div class="row align-items-center headline">
-            <div class="col col-md-10 w-100">
+            <div class="col col-md-12">
                 <nav class="navbar navbar-expand-md navbar-dark">
                     <a class="navbar-brand" href="#">
                         <img class="logo" src="../assest/images/logo.png" alt="Logo Sr Cobranza">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -35,7 +38,7 @@
                                 <a class="nav-link" href="../html/socios.html">Socios</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Cobradores  <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="#">Cobradores <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -63,83 +66,91 @@
             </div>
         </div>
 
-    <!-- Sector Central para Desarrollo -->
-    <div class="container-fluid w-100">
-        <div class="card-deck">
-            <!-- Carga de los N Socios -->
-            <div class="card align-items-center card-bg-color" style="width: 18rem;">
-                <div class="card-header card-header-style">
-                    Apellido y Nombre
+        <!-- Sector Central para Desarrollo -->
+        <div class="container-fluid w-100">
+            <div class="card-deck">
+                <!-- Carga de los N Socios -->
+                <div class="card align-items-center card-bg-color" style="width: 18rem;">
+                    <div class="card-header card-header-style">
+                        Apellido y Nombre
+                    </div>
+                    <p></p>
+                    <img class="card-img-top card-imagen" src="../assest/images/defaultsociomen.png"
+                        alt="Foto del Socio">
+                    <div class="card-body">
+                        <h5 class="card-title card-title-style">Tipo de Socio</h5>
+                        <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais,
+                            Estado Civil, Edad, Fecha de Nacimiento).</p>
+                        <a href="#" class="float-left btn btn-primary">Modificar</a>
+                        <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
+                    </div>
                 </div>
-                <p></p>
-                <img class="card-img-top card-imagen" src="../assest/images/defaultsociomen.png" alt="Foto del Socio">
-                <div class="card-body">
-                    <h5 class="card-title card-title-style">Tipo de Socio</h5>
-                    <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais, Estado Civil, Edad, Fecha de Nacimiento).</p>
-                    <a href="#" class="float-left btn btn-primary">Modificar</a>
-                    <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
+                <div class="card align-items-center card-bg-color" style="width: 18rem;">
+                    <div class="card-header card-header-style">
+                        Apellido y Nombre
+                    </div>
+                    <p></p>
+                    <img class="card-img-top card-imagen" src="../assest/images/defaultsociowomen.png"
+                        alt="Foto del Socio">
+                    <div class="card-body">
+                        <h5 class="card-title card-title-style">Tipo de Socio</h5>
+                        <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais,
+                            Estado Civil, Edad, Fecha de Nacimiento).</p>
+                        <a href="#" class="float-left btn btn-primary">Modificar</a>
+                        <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
+                    </div>
                 </div>
             </div>
-            <div class="card align-items-center card-bg-color" style="width: 18rem;">
-                <div class="card-header card-header-style">
-                    Apellido y Nombre
-                </div>
-                <p></p>
-                <img class="card-img-top card-imagen" src="../assest/images/defaultsociowomen.png" alt="Foto del Socio">
-                <div class="card-body">
-                    <h5 class="card-title card-title-style">Tipo de Socio</h5>
-                    <p class="card-text card-text-style">Datos del Socios (Domicilio, Ciudad, Provincia, Pais, Estado Civil, Edad, Fecha de Nacimiento).</p>
-                    <a href="#" class="float-left btn btn-primary">Modificar</a>
-                    <a href="#" class="float-right btn btn-danger">Dar de Baja</a>
-                </div>
+        </div>
+
+        <!-- Pie de Pagina (Footer) -->
+
+        <div class="footer">
+            <div class="social-sizes">
+                <!--Twitter-->
+                <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/dacazabat" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <!-- Facebook -->
+                <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/DanielCazabat/"
+                    target="_blank">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <!-- Instragam -->
+                <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/daniel_cazabat/"
+                    target="_blank">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <!-- LinkedIn -->
+                <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/daniel-cazabat-92223114b/"
+                    target="_blank">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+                <!-- Gmail -->
+                <a class="btn btn-social-icon btn-google" href="mailto:dacazabat@gmail.com" target="_blank">
+                    <i class="fa fa-google"></i>
+                </a>
+                <!-- GitHub -->
+                <a class="btn btn-social-icon btn-github" href="https://github.com/dcazabat" target="_blank">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            <div class="copy">
+                <i class="fa fa-copyright" aria-hidden="true">
+                    Daniel Cazabat - 2020
+                </i>
             </div>
         </div>
-    </div>
 
-    <!-- Pie de Pagina (Footer) -->
+        <!-- JS que corresponde a Boostrap -->
+        <script type="text/javascript" src="../js/jquery-3.5.1.slim.min.js"></script>
+        <script type="text/javascript" src="../js/popper.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
 
-    <div class="footer">
-        <div class="social-sizes">
-            <!--Twitter-->
-            <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/dacazabat" target="_blank">
-                <i class="fa fa-twitter"></i>
-            </a>
-            <!-- Facebook -->
-            <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/DanielCazabat/" target="_blank">
-                <i class="fa fa-facebook"></i>
-            </a>
-            <!-- Instragam -->
-            <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/daniel_cazabat/" target="_blank">
-                <i class="fa fa-instagram"></i>
-            </a>
-            <!-- LinkedIn -->
-            <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/daniel-cazabat-92223114b/" target="_blank">
-                <i class="fa fa-linkedin"></i>
-            </a>
-            <!-- Gmail -->
-            <a class="btn btn-social-icon btn-google" href="mailto:dacazabat@gmail.com" target="_blank">
-                <i class="fa fa-google"></i>
-            </a>
-            <!-- GitHub -->
-            <a class="btn btn-social-icon btn-github" href="https://github.com/dcazabat" target="_blank">
-                <i class="fa fa-github"></i>
-            </a>
-        </div>
-        <div class="copy">
-            <i class="fa fa-copyright" aria-hidden="true">
-                Daniel Cazabat - 2020
-            </i>
-        </div>
-  </div>
-
-
-    <!-- JS que corresponde a Boostrap -->
-    <script src="../js/jquery-3.5.1.slim.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-
-    <!-- JS para Icons Social -->
-    <script src="../js/jquery.js"></script>
-    <script src="../js/docs.js"></script>
+        <!-- JS para Icons Social -->
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/docs.js"></script>
 </body>
+
 </html>

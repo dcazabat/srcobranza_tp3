@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sr Cobranza</title>
+    <link rel="icon" href="../assest/images/fav-icon.png" type="image/png" />
+
     <!-- CSS Boostrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-toggle.min.css">
 
     <!-- CSS de los Icons Social -->
     <link rel="stylesheet" href="../css/font-awesome.css">
@@ -14,19 +18,21 @@
 
     <!-- CSS Propio -->
     <link rel="stylesheet" href="../css/cusstom.css">
+    <link rel="stylesheet" href="../css/tablestyle.css">
 </head>
+
 <body>
     <!-- Barra de Navegacion -->
     <div class="container-fluid w-100 container-style">
         <div class="row align-items-center headline">
-            <div class="col col-md-10 w-100">
+            <div class="col col-md-12">
                 <nav class="navbar navbar-expand-md navbar-dark">
                     <a class="navbar-brand" href="#">
                         <img class="logo" src="../assest/images/logo.png" alt="Logo Sr Cobranza">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,75 +58,288 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Administracion</a>
                             </li>
-                            <form class=" my-2 my-lg-0" action="../html/index.html">
-                                <button class="btn btn-danger my-2 my-sm-0" type="submit">
-                                    <img src="../assest/images/logout.svg" alt="SALIR" title="SALIR">
-                                </button>
-                            </form>
                         </ul>
+                        <form class=" my-2 my-lg-0" action="../html/index.html">
+                            <button class="btn btn-danger my-2 my-sm-0" type="submit">
+                                <img src="../assest/images/logout.svg" alt="SALIR" title="SALIR">
+                            </button>
+                        </form>
                     </div>
                 </nav>
             </div>
         </div>
 
-    <!-- Sector Central para Desarrollo -->
-    <div class="container-fluid w-100 justify-content-center">
-        <!-- Se muestran los datos en formato table -->
-        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addModal">
-            <img src="../assest/images/add.svg" alt="" width="16" height="16" title="Agregar Socio">  Agregar Socio
-        </button>
-        <div id="tablesoc"></div>
-    </div>
+        <!-- <button id="callProgressBar"> Progress </button> -->
 
-    <!-- Pie de Pagina (Footer) -->
+        <!-- Sector Central para Desarrollo -->
 
-    <div class="footer">
-        <div class="social-sizes">
-            <!--Twitter-->
-            <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/dacazabat" target="_blank">
-                <i class="fa fa-twitter"></i>
-            </a>
-            <!-- Facebook -->
-            <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/DanielCazabat/" target="_blank">
-                <i class="fa fa-facebook"></i>
-            </a>
-            <!-- Instragam -->
-            <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/daniel_cazabat/" target="_blank">
-                <i class="fa fa-instagram"></i>
-            </a>
-            <!-- LinkedIn -->
-            <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/daniel-cazabat-92223114b/" target="_blank">
-                <i class="fa fa-linkedin"></i>
-            </a>
-            <!-- Gmail -->
-            <a class="btn btn-social-icon btn-google" href="mailto:dacazabat@gmail.com" target="_blank">
-                <i class="fa fa-google"></i>
-            </a>
-            <!-- GitHub -->
-            <a class="btn btn-social-icon btn-github" href="https://github.com/dcazabat" target="_blank">
-                <i class="fa fa-github"></i>
-            </a>
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-sm-1 col-6 ">
+                    <div class="toggle-OnOff">
+                        <label id="btnOn" class="btn btn-success filter-display-none">On</label>
+                        <label id="btnOff" class="btn btn-danger filter-display-none">Off</label>
+                    </div>
+                    <!-- <input id="btnOnOff" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger"> -->
+                </div>
+                <div class="col-sm-2 col-6 btn-group">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Filtrar por
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Nombre</a>
+                        <a class="dropdown-item" href="#">Pais</a>
+                        <a class="dropdown-item" href="#">Edad</a>
+                        <a class="dropdown-item" href="#">Ocupacion</a>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-12">
+                    <form class="form-inline">
+                        <input class="form-control col-sm-11 col-10" type="search" placeholder="Buscar por Nombre"
+                            aria-label="Buscar">
+                        <a id="btnSearch" class="btn btn-light acciones col-sm-1 col-2" data-action="search">
+                            <img src="../assest/images/search.svg" width="20" height="20" alt="Buscar"
+                                data-action="search" title="Buscar Socio">
+                        </a>
+                    </form>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-2 col-2">
+                                <h2><b>Socios</b></h2>
+                            </div>
+                            <div class="col-sm-10 col-10">
+                                <a href="#addModal" id="btnAdd" class="btn btn-success acciones" data-action="loadAdd"
+                                    data-toggle="modal">
+                                    <img src="../assest/images/add.svg" width="20" height="20" alt="Agregar"
+                                        data-action="loadAdd" title="Agregar Socio">
+                                </a>
+                                <a id="btnDeleteAll" class="btn btn-danger acciones" data-action="loadDeleteAll"
+                                    data-toggle="modal">
+                                    <img src="../assest/images/trash.svg" width="20" height="20" alt="Borrar"
+                                        data-action="loadDeleteAll" title="Borrar Seleccionados">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="tablesoc" class="table-responsive">
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="copy">
-            <i class="fa fa-copyright" aria-hidden="true">
-                Daniel Cazabat - 2020
-            </i>
+
+        <!-- Forms Modals, Add, Edit, Delete -->
+        <!-- Edit Modal -->
+        <div id="addModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Agregar Socio</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <input id="idA" type="hidden" value="">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Apellido y Nombre</label>
+                                <input type="text" id="apellidoA" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pais</label>
+                                <input type="text" id="paisA" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Edad</label>
+                                <input type="number" min="0" step="10" id="edadA" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Ocupacion</label>
+                                <input type="text" id="ocupacionA" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-success acciones" data-dismiss="modal" data-action="add"
+                                value="Aceptar">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-  </div>
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modificar Socio</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <input id="idE" type="hidden" value="">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Apellido y Nombre</label>
+                                <input type="text" id="apellidoE" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pais</label>
+                                <input type="text" id="paisE" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Edad</label>
+                                <input type="number" min="0" step="10" id="edadE" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Ocupacion</label>
+                                <input type="text" id="ocupacionE" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-warning acciones" data-dismiss="modal"
+                                data-action="edit" value="Aceptar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Delete Modal -->
+        <div id="deleteModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Eliminar Socio</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <input id="idD" type="hidden" value="">
+                            <div class="form-group">
+                                <label>Apellido y Nombre</label>
+                                <input type="text" id="apellidoD" class="form-control" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Pais</label>
+                                <input type="text" id="paisD" class="form-control" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Edad</label>
+                                <input type="text" id="edadD" class="form-control" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Ocupacion</label>
+                                <input type="text" id="ocupacionD" class="form-control" required disabled>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger acciones" data-dismiss="modal"
+                                data-action="delete" value="Aceptar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-  <!-- JS que corresponden a las tablas y funciones -->
-  <script src="../js/utils.js"></script>
-  <script src="../assest/json/data.js"></script>
-  <script src="../js/main.js"></script>
+        <!-- Delete Modal All-->
+        <div id="deleteModalAll" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Eliminar TODOS LOS SOCIOS</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Usted esta seguro que descea Eliminar TODOS los Socios?</p>
+                            <p class="text-warning"><small>Esta Acción no se puede REVERTIR.</small></p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger acciones" data-dismiss="modal"
+                                data-action="deleteAll" value="Aceptar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
+        <!-- ProgressBar Modal -->
+        <div class="modal fade" id="progressBarModal" tabindex="-1" aria-labelledby="progressVarModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pregresBarModalLabel">Realizando Operaciones</h5>
+                    </div>
+                    <!-- Body del modal -->
+                    <div class="modal-body">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated barrita"
+                                role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                id="progressBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pie de Pagina (Footer) -->
 
-    <!-- JS que corresponde a Boostrap -->
-    <script src="../js/jquery-3.5.1.slim.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+        <div class="footer">
+            <div class="social-sizes">
+                <!--Twitter-->
+                <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/dacazabat" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <!-- Facebook -->
+                <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/DanielCazabat/"
+                    target="_blank">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <!-- Instragam -->
+                <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/daniel_cazabat/"
+                    target="_blank">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <!-- LinkedIn -->
+                <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/daniel-cazabat-92223114b/"
+                    target="_blank">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+                <!-- Gmail -->
+                <a class="btn btn-social-icon btn-google" href="mailto:dacazabat@gmail.com" target="_blank">
+                    <i class="fa fa-google"></i>
+                </a>
+                <!-- GitHub -->
+                <a class="btn btn-social-icon btn-github" href="https://github.com/dcazabat" target="_blank">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            <div class="copy ">
+                <i class="fa fa-copyright" aria-hidden="true"> <span class="copyright-font">Daniel Cazabat -
+                        2020</span></i>
+                <p></p>
+            </div>
+        </div>
 
-    <!-- JS para Icons Social -->
-    <script src="../js/jquery.js"></script>
-    <script src="../js/docs.js"></script>
+        <!-- JS que corresponden a las tablas y funciones -->
+        <script type="text/javascript" src="../assest/json/data.js"></script>
+        <script type="text/javascript" src="../js/utils.js"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+
+        <!-- JS que corresponde a Boostrap -->
+        <script type="text/javascript" src="../js/jquery-3.5.1.slim.min.js"></script>
+        <script type="text/javascript" src="../js/popper.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap-toggle.min.js"></script>
+
+        <!-- JS para Icons Social -->
+        <script type="text/javascript" src="../js/docs.js"></script>
 </body>
+
 </html>

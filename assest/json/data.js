@@ -15,7 +15,7 @@ let personas = [
   },
   {
       id:3,
-      nombre:"Ximena Capristo",
+      nombre:"Ximena Xanders",
       pais:"Argentina",
       edad:20,
       ocupacion:"Disenadora grafica"
@@ -29,7 +29,7 @@ let personas = [
   },
   {
       id:5,
-      nombre:"Marcela Polo",
+      nombre:"Marcela Polonio",
       pais:"Mexico",
       edad:24,
       ocupacion:"Consultora"
@@ -57,7 +57,7 @@ let personas = [
   },
   {
       id:9,
-      nombre:"Georgina Barbarose",
+      nombre:"Georgina Georgalos",
       pais:"Ecuador",
       edad:31,
       ocupacion:"Recepcionista"
