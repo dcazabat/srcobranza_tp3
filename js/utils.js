@@ -1,3 +1,6 @@
+let estoyFiltrando = false;
+let personasFiltrado = [];
+
 function createTThead(tableId) {
   let ttable = document.getElementById(tableId);
 
@@ -123,6 +126,7 @@ function createTBody(tableId, arrayElemnet) {
   return ttable;
 }
 
+
 function AcctionsCheck() {
   // Seleccion o Desselecciona checkboxes
   let checkbox = $('table tbody input[type="checkbox"]');
@@ -145,7 +149,7 @@ function AcctionsCheck() {
 }
 
 function ifCheckedforDelete() {
-  var checkbox = $('table tbody input[type="checkbox"]');
+  let checkbox = $('table tbody input[type="checkbox"]');
   let arrayProcess = [];
   checkbox.each(function () {
     if (this.checked) {
@@ -156,18 +160,21 @@ function ifCheckedforDelete() {
 }
 
 function btnClicks() {
+  // let btnProgress = document.getElementById('btnProgress');
+  // btnProgress.addEventListener('click', progressBarViewHide);
   let btnEditElement = document.getElementsByClassName("acciones");
+
   for (let i = 0; i < btnEditElement.length; i++) {
+    btnEditElement[i].removeEventListener("click", actions);
     btnEditElement[i].addEventListener("click", actions);
   }
 }
 
 function actions(e) {
-  const timeViewProgressBar = 2;
   let persona = personas[e.target.dataset.id];
   let tabla = document.getElementById("tablesoc");
   jQuery.noConflict();
-  let arrayElementDel = ifCheckedforDelete();
+  let arrayElementDel = ifCheckedforDelete;
   switch (e.target.dataset.action) {
     case "loadDeleteAll":
       // console.log("Eliminar TODOS");
@@ -198,7 +205,7 @@ function actions(e) {
         .setAttribute("value", persona.ocupacion);
       break;
     case "loadDelete":
-      // console.log("Cargo los datos para Eliminar");
+      // console.log("Cargo los datos para Eliminar", e.target.dataset.id);
       document.getElementById("idD").setAttribute("value", e.target.dataset.id);
       document
         .getElementById("apellidoD")
@@ -211,7 +218,7 @@ function actions(e) {
       break;
     case "add":
       // console.log("Click en Aceptar de Agregar");
-      progressBarViewHide(timeViewProgressBar);
+      progressBarViewHide();
       personas.push({
         id: parseInt(document.getElementById("idA").value),
         nombre: document.getElementById("apellidoA").value,
@@ -224,7 +231,7 @@ function actions(e) {
       break;
     case "edit":
       // console.log("Click en Aceptar de Editar");
-      progressBarViewHide(timeViewProgressBar);
+      progressBarViewHide();
       let mid = document.getElementById("idE").value;
       personas[mid].nombre = document.getElementById("apellidoE").value;
       personas[mid].pais = document.getElementById("paisE").value;
@@ -235,7 +242,7 @@ function actions(e) {
       break;
     case "delete":
       // console.log("Click en Aceptar de Eliminar");
-      progressBarViewHide(timeViewProgressBar);
+      progressBarViewHide();
       tabla.innerHTML = "";
       let idDel = parseInt(
         document.getElementById("idD").getAttribute("value")
@@ -245,7 +252,7 @@ function actions(e) {
       break;
     case "deleteAll":
       // console.log("Click en Aceptar de Eliminar Todo");
-      progressBarViewHide(timeViewProgressBar);
+      progressBarViewHide();
       arrayElementDel.reverse();
       console.log(arrayElementDel.length, arrayElementDel);
       arrayElementDel.forEach((element) => {
@@ -255,24 +262,26 @@ function actions(e) {
       tabla.innerHTML = "";
       DatosTabla("tablesoc", personas);
       break;
+    case "search":
+      console.log('Evento Click en Case');
+      break;
     default:
       break;
   }
 }
 
-let progressBar = document.getElementById("progressBar");
-let modalBarrita = document.getElementById("progessBarModal");
+function progressBarViewHide() {
+  let progressBar = document.getElementById("progressBar");
+  const timeViewProgressBar = 2;
 
-function progressBarViewHide(iterations) {
   progressBar.setAttribute("aria-valuenow", 0);
   progressBar.style.width = `0%`;
 
-  let timeEnd = iterations * 1000;
-  let increment = 100 / iterations;
+  let timeEnd = timeViewProgressBar * 1000;
+  let increment = 100 / timeViewProgressBar;
 
   jQuery.noConflict();
-  $("#progressBarModal").modal("show");
-  console.log("Abriendo Modal");
+  jQuery("#progressBarModal").modal("show");
 
   const interval = setInterval(function () {
     let value = parseInt(progressBar.getAttribute("aria-valuenow"));
@@ -283,37 +292,69 @@ function progressBarViewHide(iterations) {
       progressBar.style.width = `${value}%`;
     } else {
       clearInterval(interval);
-      $("#progressBarModal").modal("hide");
-      console.log("Cerrando Modal");
+      jQuery("#progressBarModal").modal("hide");
     }
   }, timeEnd);
 }
-function on(){
-  console.log("Hemos pulsado en on");
 
+// Elemneto Toggle para Mostrar o Ocultar las opciones de busqueda
+// lo inicializa en ON
+let btnOnOff = document.getElementById('btnOnOffSearch');
+btnOnOff.checked = true;
+
+// Mustra u Oculta lo de la busqueda y se le asigna al evento Change
+// No anda con Listener
+function onoffBtn(e) {
+  $('#btnOnOffSearch').change(function() {
+    onOffElement('ddSearch')
+    onOffElement('barSearch')
+  })
 }
 
-function off(){
-  console.log("Hemos pulsado en off");
+// Funcion que se llama
+function onOffElement(element) {
+  var el = document.getElementById(element);
+  if (el.style.display === "none") {
+      el.style.display = "block";
+  } else {
+      el.style.display = "none";
+  }
 }
 
-var btnOn = document.getElementById('btnOn');
-btnOn.addEventListener("click", comprueba);
-btnOn.classList.toggle("filter-display-none");
-var btnOff = document.getElementById('btnOff');
-btnOff.addEventListener("click", comprueba);
+// Traabajo con el DropDown
+let filtername = "";
 
-function comprueba(){
-  if(this.id=="btnOn"){
-      on();
-      var elemento = document.getElementById('btnOn');
-      var posicion = elemento.getBoundingClientRect();
-       
-      console.log(posicion.top, posicion.right, posicion.bottom, posicion.left);
-  }else{
-     off();
-     btnOn.style.visibility = "visible"
-     btnOff.style.visibility = "hidden"
- }
- this.classList.toggle("filter-display-none") 
+
+let ddSearch = document.getElementsByClassName('dropdown-item')
+//ddSearch.forEach(element => console.log(element))
+for (let i = 0; i < ddSearch.length; i++) {
+  ddSearch[i].addEventListener('click',(e) => {
+//    console.log('Click en Menu', e.target.textContent.toLocaleLowerCase())
+    document.getElementById('inputSearch').value = '';
+    document.getElementById('inputSearch').setAttribute('placeholder',`Buscar por ${e.target.textContent}`)
+    filtername = e.target.textContent.toLowerCase();
+  })
 }
+
+let inputSearch = document.getElementById('inputSearch');
+inputSearch.value = "";
+
+// Trabajo con Boton Buscar
+
+let btnBuscar = document.getElementById('btnbarSearch')
+btnBuscar.addEventListener('click', () => {
+  personasFiltrado = searchFilter(inputSearch.value);
+  document.getElementById("tablesoc").innerHTML = "";
+  DatosTabla("tablesoc", personasFiltrado);
+})
+
+function searchFilter(condition) {
+  console.log(condition)
+  return personas.filter(person => person.pais.toLowerCase().includes(condition.toLowerCase()));
+}
+
+
+// FILTROS variable global para saber si estoy filtrando o no y eso me indica que array uso.
+// SINO ESTOY FILTRANDO el Array de datos filtrados NO debe tener elementos!!!
+
+// En caso de filtrar debo buscar en el array original el elemento y eliminarlo y editarlo, en caso de agregar idem

@@ -9,7 +9,7 @@
 
     <!-- CSS Boostrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/bootstrap-toggle.min.css">
+    <link rel="stylesheet" href="../css/bootstrap4-toggle.min.css">
 
     <!-- CSS de los Icons Social -->
     <link rel="stylesheet" href="../css/font-awesome.css">
@@ -72,33 +72,27 @@
         <!-- <button id="callProgressBar"> Progress </button> -->
 
         <!-- Sector Central para Desarrollo -->
-
         <div class="container-xl">
-            <div class="row">
-                <div class="col-sm-1 col-6 ">
-                    <div class="toggle-OnOff">
-                        <label id="btnOn" class="btn btn-success filter-display-none">On</label>
-                        <label id="btnOff" class="btn btn-danger filter-display-none">Off</label>
-                    </div>
-                    <!-- <input id="btnOnOff" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger"> -->
+            <div class="row ">
+                <div class="col-6 col-sm-3 col-md-3 col-lg-2 aligne-items-center">
+                    <span class="text-light">Filtros </span>
+                    <input id="btnOnOffSearch" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
                 </div>
-                <div class="col-sm-2 col-6 btn-group">
+                <div id="ddSearch" class="col-6 col-sm-3 col-md-2 col-lg-2 btn-group filter-display-none">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        Filtrar por
+                        Columna
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Nombre</a>
                         <a class="dropdown-item" href="#">Pais</a>
-                        <a class="dropdown-item" href="#">Edad</a>
                         <a class="dropdown-item" href="#">Ocupacion</a>
                     </div>
                 </div>
-                <div class="col-sm-9 col-12">
+                <div id="barSearch" class="col-12 col-sm-6 col-md-7 col-lg-8 filter-display-none">
                     <form class="form-inline">
-                        <input class="form-control col-sm-11 col-10" type="search" placeholder="Buscar por Nombre"
-                            aria-label="Buscar">
-                        <a id="btnSearch" class="btn btn-light acciones col-sm-1 col-2" data-action="search">
+                        <input id="inputSearch" class="form-control col-sm-10 col-10" type="search" placeholder="Buscar por Pais"
+                            aria-label="Buscar" autocomplete="off">
+                        <a id="btnbarSearch" class="btn btn-light col-lg-1 col-sm-2 col-2" data-action="search">
                             <img src="../assest/images/search.svg" width="20" height="20" alt="Buscar"
                                 data-action="search" title="Buscar Socio">
                         </a>
@@ -133,7 +127,7 @@
         </div>
 
         <!-- Forms Modals, Add, Edit, Delete -->
-        <!-- Edit Modal -->
+        <!-- Add Modal -->
         <div id="addModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -146,19 +140,19 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Apellido y Nombre</label>
-                                <input type="text" id="apellidoA" class="form-control" required>
+                                <input type="text" id="apellidoA" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Pais</label>
-                                <input type="text" id="paisA" class="form-control" required>
+                                <input type="text" id="paisA" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Edad</label>
-                                <input type="number" min="0" step="10" id="edadA" class="form-control" required>
+                                <input type="number" min="0" step="10" id="edadA" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Ocupacion</label>
-                                <input type="text" id="ocupacionA" class="form-control" required>
+                                <input type="text" id="ocupacionA" class="form-control" required autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -183,19 +177,19 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Apellido y Nombre</label>
-                                <input type="text" id="apellidoE" class="form-control" required>
+                                <input type="text" id="apellidoE" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Pais</label>
-                                <input type="text" id="paisE" class="form-control" required>
+                                <input type="text" id="paisE" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Edad</label>
-                                <input type="number" min="0" step="10" id="edadE" class="form-control" required>
+                                <input type="number" min="0" step="10" id="edadE" class="form-control" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Ocupacion</label>
-                                <input type="text" id="ocupacionE" class="form-control" required>
+                                <input type="text" id="ocupacionE" class="form-control" required autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -336,7 +330,7 @@
         <script type="text/javascript" src="../js/popper.min.js"></script>
         <script type="text/javascript" src="../js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" src="../js/bootstrap-toggle.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap4-toggle.min.js"></script>
 
         <!-- JS para Icons Social -->
         <script type="text/javascript" src="../js/docs.js"></script>
