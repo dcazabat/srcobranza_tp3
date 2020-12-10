@@ -70,6 +70,7 @@ function createTBody(tableId, arrayElemnet) {
     tr.appendChild(thcheck);
 
     // Items
+    let idelement = positionArray(arrayElemnet, parseInt(arrayElemnet[i].id));
     let tdnombre = document.createElement("td");
     tdnombre.innerHTML = arrayElemnet[i].nombre;
     tr.appendChild(tdnombre);
@@ -90,7 +91,7 @@ function createTBody(tableId, arrayElemnet) {
     deleteIcon.setAttribute("class", "btn btn-danger acciones");
     deleteIcon.setAttribute("data-toggle", "modal");
     deleteIcon.setAttribute("data-action", "loadDelete");
-    deleteIcon.setAttribute("data-id", i);
+    deleteIcon.setAttribute("data-id", idelement);
     let deleteIconimg = document.createElement("img");
     deleteIconimg.setAttribute("src", "../assest/images/trash.svg");
     deleteIconimg.setAttribute("width", w_buttons);
@@ -98,7 +99,7 @@ function createTBody(tableId, arrayElemnet) {
     deleteIconimg.setAttribute("alt", "Borrar");
     deleteIconimg.setAttribute("title", "Borrar");
     deleteIconimg.setAttribute("data-action", "loadDelete");
-    deleteIconimg.setAttribute("data-id", i);
+    deleteIconimg.setAttribute("data-id", idelement);
     deleteIcon.appendChild(deleteIconimg);
     tdacciones.appendChild(deleteIcon);
 
@@ -107,7 +108,7 @@ function createTBody(tableId, arrayElemnet) {
     editIcon.setAttribute("class", "btn btn-warning acciones");
     editIcon.setAttribute("data-toggle", "modal");
     editIcon.setAttribute("data-action", "loadEdit");
-    editIcon.setAttribute("data-id", i);
+    editIcon.setAttribute("data-id", idelement);
     let editIconimg = document.createElement("img");
     editIconimg.setAttribute("src", "../assest/images/pencil.svg");
     editIconimg.setAttribute("width", w_buttons);
@@ -115,7 +116,7 @@ function createTBody(tableId, arrayElemnet) {
     editIconimg.setAttribute("alt", "Editar");
     editIconimg.setAttribute("title", "Editar");
     editIconimg.setAttribute("data-action", "loadEdit");
-    editIconimg.setAttribute("data-id", i);
+    editIconimg.setAttribute("data-id", idelement);
     editIcon.appendChild(editIconimg);
     tdacciones.appendChild(editIcon);
 
@@ -126,6 +127,19 @@ function createTBody(tableId, arrayElemnet) {
   return ttable;
 }
 
+function orderedArray(dataArray) {
+  let arrayOrdered = dataArray.sort(function (a, b) {
+    if (a.nombre > b.nombre) {
+      return 1;
+    }
+    if (a.nombre < b.nombre) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+  return arrayOrdered;
+}
 
 function AcctionsCheck() {
   // Seleccion o Desselecciona checkboxes
@@ -170,8 +184,23 @@ function btnClicks() {
   }
 }
 
+function positionArray(arrayData, data) {
+  return arrayData
+    .map(function (e) {
+      return e.id;
+    })
+    .indexOf(data);
+}
+
 function actions(e) {
-  let persona = personas[e.target.dataset.id];
+  let persona = undefined;
+  if (estoyFiltrando) {
+    console.log('Filtrando')
+    persona = personasFiltrado[e.target.dataset.id];
+  } else {
+    console.log('Sin Filtrando')
+    persona = personas[e.target.dataset.id];
+  }
   let tabla = document.getElementById("tablesoc");
   jQuery.noConflict();
   let arrayElementDel = ifCheckedforDelete;
@@ -179,14 +208,14 @@ function actions(e) {
     case "loadDeleteAll":
       // console.log("Eliminar TODOS");
       if (arrayElementDel.length > 0) {
-        $("#deleteModalAll").modal("show");
+        jQuery("#deleteModalAll").modal("show");
       } else {
         alert("No hay Items Seleccionados !!!!");
       }
       break;
     case "loadAdd":
       // console.log("Limpio los Datos");
-      document.getElementById("idA").setAttribute("value", personas.length + 1);
+      document.getElementById("idA").setAttribute("value", nextIndex());
       document.getElementById("apellidoA").setAttribute("value", "");
       document.getElementById("paisA").setAttribute("value", "");
       document.getElementById("edadA").setAttribute("value", "");
@@ -227,6 +256,7 @@ function actions(e) {
         ocupacion: document.getElementById("ocupacionA").value,
       });
       tabla.innerHTML = "";
+      personas = orderedArray(personas);
       DatosTabla("tablesoc", personas);
       break;
     case "edit":
@@ -238,6 +268,7 @@ function actions(e) {
       personas[mid].edad = document.getElementById("edadE").value;
       personas[mid].ocupacion = document.getElementById("ocupacionE").value;
       tabla.innerHTML = "";
+      personas = orderedArray(personas);
       DatosTabla("tablesoc", personas);
       break;
     case "delete":
@@ -248,6 +279,7 @@ function actions(e) {
         document.getElementById("idD").getAttribute("value")
       );
       personas.splice(idDel, 1);
+      personas = orderedArray(personas);
       DatosTabla("tablesoc", personas);
       break;
     case "deleteAll":
@@ -260,14 +292,29 @@ function actions(e) {
         personas.splice(parseInt(element), 1);
       });
       tabla.innerHTML = "";
+      personas = orderedArray(personas);
       DatosTabla("tablesoc", personas);
       break;
     case "search":
-      console.log('Evento Click en Case');
+      console.log("Evento Click en Case");
       break;
     default:
       break;
   }
+}
+
+function nextIndex() {
+  let arrayOrdered = personas.sort(function (a, b) {
+    if (a.id > b.id) {
+      return 1;
+    }
+    if (a.id < b.id) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+  return parseInt(arrayOrdered[arrayOrdered.length - 1].id) + 1;
 }
 
 function progressBarViewHide() {
@@ -298,63 +345,60 @@ function progressBarViewHide() {
 }
 
 // Elemneto Toggle para Mostrar o Ocultar las opciones de busqueda
-// lo inicializa en ON
-let btnOnOff = document.getElementById('btnOnOffSearch');
-btnOnOff.checked = true;
-
-// Mustra u Oculta lo de la busqueda y se le asigna al evento Change
+// Muestra u Oculta lo de la busqueda y se le asigna al evento Change
 // No anda con Listener
-function onoffBtn(e) {
-  $('#btnOnOffSearch').change(function() {
-    onOffElement('ddSearch')
-    onOffElement('barSearch')
-  })
-}
-
-// Funcion que se llama
-function onOffElement(element) {
-  var el = document.getElementById(element);
-  if (el.style.display === "none") {
-      el.style.display = "block";
-  } else {
-      el.style.display = "none";
+jQuery("#btnOnOffSearch").change(function () {
+  estoyFiltrando = !estoyFiltrando;
+  if (!estoyFiltrando) {
+    document.getElementById("tablesoc").innerHTML = "";
+    DatosTabla("tablesoc", personas);
   }
-}
+  document.getElementById("ddSearch").classList.toggle('filter-display-none');
+  document.getElementById("barSearch").classList.toggle('filter-display-none');
+});
 
-// Traabajo con el DropDown
-let filtername = "";
+// Trabajo con el DropDown
+let filtername = "Pais";
 
-
-let ddSearch = document.getElementsByClassName('dropdown-item')
-//ddSearch.forEach(element => console.log(element))
-for (let i = 0; i < ddSearch.length; i++) {
-  ddSearch[i].addEventListener('click',(e) => {
-//    console.log('Click en Menu', e.target.textContent.toLocaleLowerCase())
-    document.getElementById('inputSearch').value = '';
-    document.getElementById('inputSearch').setAttribute('placeholder',`Buscar por ${e.target.textContent}`)
-    filtername = e.target.textContent.toLowerCase();
+let ddFilter = document.getElementById("ddFilter");
+ddFilter.addEventListener('click', (e) => {
+  console.log(e.target.textContent, 'Cambie');
+  document.getElementById("inputSearch").value = "";
+  document
+    .getElementById("inputSearch")
+    .setAttribute("placeholder", `Buscar por ${e.target.textContent}`);
+  filtername = e.target.textContent;
+  let btnBuscar = document.getElementById("btnbarSearch");
+  let inputSearch = document.getElementById("inputSearch");
+  if (filtername == "Pais") {
+    btnBuscar.addEventListener("click", () => {
+      personasFiltrado = personas.filter((person) =>
+        person.pais.toLowerCase().includes(inputSearch.value.toLowerCase())
+      );
+      document.getElementById("tablesoc").innerHTML = "";
+      DatosTabla("tablesoc", personasFiltrado);
+    });
+  } else {
+    btnBuscar.addEventListener("click", () => {
+      personasFiltrado = personas.filter((person) =>
+        person.ocupacion.toLowerCase().includes(inputSearch.value.toLowerCase())
+      );
+      document.getElementById("tablesoc").innerHTML = "";
+      DatosTabla("tablesoc", personasFiltrado);
+    });
+  }
   })
-}
 
-let inputSearch = document.getElementById('inputSearch');
-inputSearch.value = "";
-
-// Trabajo con Boton Buscar
-
-let btnBuscar = document.getElementById('btnbarSearch')
-btnBuscar.addEventListener('click', () => {
-  personasFiltrado = searchFilter(inputSearch.value);
-  document.getElementById("tablesoc").innerHTML = "";
-  DatosTabla("tablesoc", personasFiltrado);
-})
-
-function searchFilter(condition) {
-  console.log(condition)
-  return personas.filter(person => person.pais.toLowerCase().includes(condition.toLowerCase()));
-}
-
-
+  
+  function refreshTable() {
+    // Refresca los datos de la tabla cuando se hace algun movimiento en el Array
+    
+  }
 // FILTROS variable global para saber si estoy filtrando o no y eso me indica que array uso.
 // SINO ESTOY FILTRANDO el Array de datos filtrados NO debe tener elementos!!!
 
 // En caso de filtrar debo buscar en el array original el elemento y eliminarlo y editarlo, en caso de agregar idem
+// Ver TODA LA LOGICA DE FILTROS, cuando borrar el input, cuando volver a ver la tabla completa con el array original,
+// ya sea con los items modificados, borrados o agrgados, cuando agrega sino corresponde al filtro no molastrarlo.
+
+// Forma de trabajo, borrar, modificar o agregar y luego volver a filtrar y mostrar el arreglo.

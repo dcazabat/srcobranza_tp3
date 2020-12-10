@@ -85,5 +85,5 @@ body {
   font-style: italic;
 }
 .filter-display-none{
-  display: block;
+  display: none;
 }
