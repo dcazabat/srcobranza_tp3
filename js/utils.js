@@ -352,6 +352,7 @@ jQuery("#btnOnOffSearch").change(function () {
   if (!estoyFiltrando) {
     document.getElementById("tablesoc").innerHTML = "";
     DatosTabla("tablesoc", personas);
+    document.getElementById("inputSearch").value = "";
   }
   document.getElementById("ddSearch").classList.toggle('filter-display-none');
   document.getElementById("barSearch").classList.toggle('filter-display-none');
@@ -370,24 +371,14 @@ ddFilter.addEventListener('click', (e) => {
   filtername = e.target.textContent;
   let btnBuscar = document.getElementById("btnbarSearch");
   let inputSearch = document.getElementById("inputSearch");
-  if (filtername == "Pais") {
-    btnBuscar.addEventListener("click", () => {
-      personasFiltrado = personas.filter((person) =>
-        person.pais.toLowerCase().includes(inputSearch.value.toLowerCase())
-      );
-      document.getElementById("tablesoc").innerHTML = "";
-      DatosTabla("tablesoc", personasFiltrado);
-    });
-  } else {
-    btnBuscar.addEventListener("click", () => {
-      personasFiltrado = personas.filter((person) =>
-        person.ocupacion.toLowerCase().includes(inputSearch.value.toLowerCase())
-      );
-      document.getElementById("tablesoc").innerHTML = "";
-      DatosTabla("tablesoc", personasFiltrado);
-    });
-  }
-  })
+  btnBuscar.addEventListener("click", () => {
+    personasFiltrado = personas.filter((person) =>
+      person[filtername.toLowerCase()].toLowerCase().includes(inputSearch.value.toLowerCase())
+    );
+    document.getElementById("tablesoc").innerHTML = "";
+    DatosTabla("tablesoc", personasFiltrado);
+  });
+})
 
   
   function refreshTable() {
