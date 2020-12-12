@@ -1,5 +1,5 @@
-let estoyFiltrando = false;
 let personasFiltrado = [];
+let filtername = "";
 
 function createTThead(tableId) {
   let ttable = document.getElementById(tableId);
@@ -50,7 +50,7 @@ function createTBody(tableId, arrayElemnet) {
   let tbody = document.createElement("tbody");
   const w_buttons = "10";
   const h_buttons = "10";
-
+  console.log(arrayElemnet);
   for (let i = 0; i < arrayElemnet.length; i++) {
     let tr = document.createElement("tr");
     // CheckBox
@@ -70,7 +70,7 @@ function createTBody(tableId, arrayElemnet) {
     tr.appendChild(thcheck);
 
     // Items
-    let idelement = positionArray(arrayElemnet, parseInt(arrayElemnet[i].id));
+    let idelement = parseInt(arrayElemnet[i].id);
     let tdnombre = document.createElement("td");
     tdnombre.innerHTML = arrayElemnet[i].nombre;
     tr.appendChild(tdnombre);
@@ -127,15 +127,15 @@ function createTBody(tableId, arrayElemnet) {
   return ttable;
 }
 
-function orderedArray(dataArray) {
+function orderedArray(dataArray, orderby) {
   let arrayOrdered = dataArray.sort(function (a, b) {
-    if (a.nombre > b.nombre) {
+    if (a[orderby] > b[orderby]) {
       return 1;
     }
-    if (a.nombre < b.nombre) {
+    if (a[orderby] < b[orderby]) {
       return -1;
     }
-    // a must be equal to b
+    // Si son iguales
     return 0;
   });
   return arrayOrdered;
@@ -143,8 +143,8 @@ function orderedArray(dataArray) {
 
 function AcctionsCheck() {
   // Seleccion o Desselecciona checkboxes
-  let checkbox = $('table tbody input[type="checkbox"]');
-  $("#selectAll").click(function () {
+  let checkbox = jQuery('table tbody input[type="checkbox"]');
+  jQuery("#selectAll").click(function () {
     if (this.checked) {
       checkbox.each(function () {
         this.checked = true;
@@ -157,25 +157,13 @@ function AcctionsCheck() {
   });
   checkbox.click(function () {
     if (!this.checked) {
-      $("#selectAll").prop("checked", false);
+      jQuery("#selectAll").prop("checked", false);
     }
   });
 }
 
-function ifCheckedforDelete() {
-  let checkbox = $('table tbody input[type="checkbox"]');
-  let arrayProcess = [];
-  checkbox.each(function () {
-    if (this.checked) {
-      arrayProcess.push(this.value);
-    }
-  });
-  return arrayProcess;
-}
 
 function btnClicks() {
-  // let btnProgress = document.getElementById('btnProgress');
-  // btnProgress.addEventListener('click', progressBarViewHide);
   let btnEditElement = document.getElementsByClassName("acciones");
 
   for (let i = 0; i < btnEditElement.length; i++) {
@@ -184,26 +172,62 @@ function btnClicks() {
   }
 }
 
-function positionArray(arrayData, data) {
-  return arrayData
-    .map(function (e) {
-      return e.id;
-    })
-    .indexOf(data);
-}
 
 function actions(e) {
-  let persona = undefined;
-  if (estoyFiltrando) {
-    console.log('Filtrando')
-    persona = personasFiltrado[e.target.dataset.id];
-  } else {
-    console.log('Sin Filtrando')
-    persona = personas[e.target.dataset.id];
+
+  function siteLoadData() {
+    tabla.innerHTML = "";
+    personas = orderedArray(personas, "nombre");
+    if (document.getElementById("btnOnOffSearch").checked) {
+      personasFiltrado = personas.filter((person) =>
+      person[filtername.toLowerCase()].toLowerCase().includes(inputSearch.value.toLowerCase())
+    );
+      DatosTabla("tablesoc", personasFiltrado);
+    } else {
+      DatosTabla("tablesoc", personas);
+    }
   }
+
+  function positionArray(arrayData, data) {
+    return arrayData
+      .map(function (e) {
+        return e.id;
+      })
+      .indexOf(data);
+  }
+
+  function ifCheckedforDelete() {
+    let checkbox = jQuery('table tbody input[type="checkbox"]');
+    let arrayProcess = [];
+  
+    checkbox.each(function () {
+      if (this.checked) {
+        arrayProcess.push(this.value);
+      }
+    });
+    return arrayProcess;
+  }
+
+  function nextIndex() {
+    let arrayOrdered = personas.sort(function (a, b) {
+      if (a.id > b.id) {
+        return 1;
+      }
+      if (a.id < b.id) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return parseInt(arrayOrdered[arrayOrdered.length - 1].id) + 1;
+  }
+
+  let persona = personas[positionArray(personas, parseInt(e.target.dataset.id))];
+  
   let tabla = document.getElementById("tablesoc");
-  jQuery.noConflict();
-  let arrayElementDel = ifCheckedforDelete;
+  //jQuery.noConflict();
+  let arrayElementDel = ifCheckedforDelete();
+    
   switch (e.target.dataset.action) {
     case "loadDeleteAll":
       // console.log("Eliminar TODOS");
@@ -255,32 +279,30 @@ function actions(e) {
         edad: parseInt(document.getElementById("edadA").value),
         ocupacion: document.getElementById("ocupacionA").value,
       });
-      tabla.innerHTML = "";
-      personas = orderedArray(personas);
-      DatosTabla("tablesoc", personas);
+      document.getElementById("idA").value = 0;
+      document.getElementById("apellidoA").value = "";
+      document.getElementById("paisA").value = "";
+      document.getElementById("edadA").value = "";
+      document.getElementById("ocupacionA").value = "";
+      siteLoadData();
       break;
     case "edit":
       // console.log("Click en Aceptar de Editar");
       progressBarViewHide();
-      let mid = document.getElementById("idE").value;
+      let mid = positionArray(personas, parseInt(document.getElementById("idE").value));
+
       personas[mid].nombre = document.getElementById("apellidoE").value;
       personas[mid].pais = document.getElementById("paisE").value;
       personas[mid].edad = document.getElementById("edadE").value;
       personas[mid].ocupacion = document.getElementById("ocupacionE").value;
-      tabla.innerHTML = "";
-      personas = orderedArray(personas);
-      DatosTabla("tablesoc", personas);
+      siteLoadData();
       break;
     case "delete":
       // console.log("Click en Aceptar de Eliminar");
       progressBarViewHide();
-      tabla.innerHTML = "";
-      let idDel = parseInt(
-        document.getElementById("idD").getAttribute("value")
-      );
+      let idDel = positionArray(personas, parseInt(document.getElementById("idD").value));
       personas.splice(idDel, 1);
-      personas = orderedArray(personas);
-      DatosTabla("tablesoc", personas);
+      siteLoadData();
       break;
     case "deleteAll":
       // console.log("Click en Aceptar de Eliminar Todo");
@@ -291,30 +313,11 @@ function actions(e) {
         //parseInt(element);
         personas.splice(parseInt(element), 1);
       });
-      tabla.innerHTML = "";
-      personas = orderedArray(personas);
-      DatosTabla("tablesoc", personas);
-      break;
-    case "search":
-      console.log("Evento Click en Case");
+      siteLoadData();
       break;
     default:
       break;
   }
-}
-
-function nextIndex() {
-  let arrayOrdered = personas.sort(function (a, b) {
-    if (a.id > b.id) {
-      return 1;
-    }
-    if (a.id < b.id) {
-      return -1;
-    }
-    // a must be equal to b
-    return 0;
-  });
-  return parseInt(arrayOrdered[arrayOrdered.length - 1].id) + 1;
 }
 
 function progressBarViewHide() {
@@ -348,8 +351,7 @@ function progressBarViewHide() {
 // Muestra u Oculta lo de la busqueda y se le asigna al evento Change
 // No anda con Listener
 jQuery("#btnOnOffSearch").change(function () {
-  estoyFiltrando = !estoyFiltrando;
-  if (!estoyFiltrando) {
+  if (!this.checked) {
     document.getElementById("tablesoc").innerHTML = "";
     DatosTabla("tablesoc", personas);
     document.getElementById("inputSearch").value = "";
@@ -359,11 +361,9 @@ jQuery("#btnOnOffSearch").change(function () {
 });
 
 // Trabajo con el DropDown
-let filtername = "Pais";
 
 let ddFilter = document.getElementById("ddFilter");
 ddFilter.addEventListener('click', (e) => {
-  console.log(e.target.textContent, 'Cambie');
   document.getElementById("inputSearch").value = "";
   document
     .getElementById("inputSearch")
@@ -379,17 +379,3 @@ ddFilter.addEventListener('click', (e) => {
     DatosTabla("tablesoc", personasFiltrado);
   });
 })
-
-  
-  function refreshTable() {
-    // Refresca los datos de la tabla cuando se hace algun movimiento en el Array
-    
-  }
-// FILTROS variable global para saber si estoy filtrando o no y eso me indica que array uso.
-// SINO ESTOY FILTRANDO el Array de datos filtrados NO debe tener elementos!!!
-
-// En caso de filtrar debo buscar en el array original el elemento y eliminarlo y editarlo, en caso de agregar idem
-// Ver TODA LA LOGICA DE FILTROS, cuando borrar el input, cuando volver a ver la tabla completa con el array original,
-// ya sea con los items modificados, borrados o agrgados, cuando agrega sino corresponde al filtro no molastrarlo.
-
-// Forma de trabajo, borrar, modificar o agregar y luego volver a filtrar y mostrar el arreglo.
