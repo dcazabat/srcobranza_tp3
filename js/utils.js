@@ -162,7 +162,6 @@ function AcctionsCheck() {
   });
 }
 
-
 function btnClicks() {
   let btnEditElement = document.getElementsByClassName("acciones");
 
@@ -172,22 +171,23 @@ function btnClicks() {
   }
 }
 
+function siteLoadData() {
+  let tabla = document.getElementById("tablesoc");
+  tabla.innerHTML = "";
+  personas = orderedArray(personas, "nombre");
+  if (document.getElementById("btnOnOffSearch").checked) {
+    personasFiltrado = personas.filter((person) =>
+      person[filtername.toLowerCase()]
+        .toLowerCase()
+        .includes(inputSearch.value.toLowerCase())
+    );
+    DatosTabla("tablesoc", personasFiltrado);
+  } else {
+    DatosTabla("tablesoc", personas);
+  }
+}
 
 function actions(e) {
-
-  function siteLoadData() {
-    tabla.innerHTML = "";
-    personas = orderedArray(personas, "nombre");
-    if (document.getElementById("btnOnOffSearch").checked) {
-      personasFiltrado = personas.filter((person) =>
-      person[filtername.toLowerCase()].toLowerCase().includes(inputSearch.value.toLowerCase())
-    );
-      DatosTabla("tablesoc", personasFiltrado);
-    } else {
-      DatosTabla("tablesoc", personas);
-    }
-  }
-
   function positionArray(arrayData, data) {
     return arrayData
       .map(function (e) {
@@ -199,7 +199,7 @@ function actions(e) {
   function ifCheckedforDelete() {
     let checkbox = jQuery('table tbody input[type="checkbox"]');
     let arrayProcess = [];
-  
+
     checkbox.each(function () {
       if (this.checked) {
         arrayProcess.push(this.value);
@@ -222,12 +222,11 @@ function actions(e) {
     return parseInt(arrayOrdered[arrayOrdered.length - 1].id) + 1;
   }
 
-  let persona = personas[positionArray(personas, parseInt(e.target.dataset.id))];
-  
-  let tabla = document.getElementById("tablesoc");
-  //jQuery.noConflict();
+  let persona =
+    personas[positionArray(personas, parseInt(e.target.dataset.id))];
+
   let arrayElementDel = ifCheckedforDelete();
-    
+
   switch (e.target.dataset.action) {
     case "loadDeleteAll":
       // console.log("Eliminar TODOS");
@@ -271,7 +270,6 @@ function actions(e) {
       break;
     case "add":
       // console.log("Click en Aceptar de Agregar");
-      progressBarViewHide();
       personas.push({
         id: parseInt(document.getElementById("idA").value),
         nombre: document.getElementById("apellidoA").value,
@@ -284,36 +282,39 @@ function actions(e) {
       document.getElementById("paisA").value = "";
       document.getElementById("edadA").value = "";
       document.getElementById("ocupacionA").value = "";
-      siteLoadData();
+      progressBarViewHide();
       break;
     case "edit":
       // console.log("Click en Aceptar de Editar");
-      progressBarViewHide();
-      let mid = positionArray(personas, parseInt(document.getElementById("idE").value));
+      let mid = positionArray(
+        personas,
+        parseInt(document.getElementById("idE").value)
+      );
 
       personas[mid].nombre = document.getElementById("apellidoE").value;
       personas[mid].pais = document.getElementById("paisE").value;
       personas[mid].edad = document.getElementById("edadE").value;
       personas[mid].ocupacion = document.getElementById("ocupacionE").value;
-      siteLoadData();
+      progressBarViewHide();
       break;
     case "delete":
       // console.log("Click en Aceptar de Eliminar");
-      progressBarViewHide();
-      let idDel = positionArray(personas, parseInt(document.getElementById("idD").value));
+      let idDel = positionArray(
+        personas,
+        parseInt(document.getElementById("idD").value)
+      );
       personas.splice(idDel, 1);
-      siteLoadData();
+      progressBarViewHide();
       break;
     case "deleteAll":
       // console.log("Click en Aceptar de Eliminar Todo");
-      progressBarViewHide();
       arrayElementDel.reverse();
       console.log(arrayElementDel.length, arrayElementDel);
       arrayElementDel.forEach((element) => {
         //parseInt(element);
         personas.splice(parseInt(element), 1);
       });
-      siteLoadData();
+      progressBarViewHide();
       break;
     default:
       break;
@@ -330,7 +331,6 @@ function progressBarViewHide() {
   let timeEnd = timeViewProgressBar * 1000;
   let increment = 100 / timeViewProgressBar;
 
-  jQuery.noConflict();
   jQuery("#progressBarModal").modal("show");
 
   const interval = setInterval(function () {
@@ -343,6 +343,7 @@ function progressBarViewHide() {
     } else {
       clearInterval(interval);
       jQuery("#progressBarModal").modal("hide");
+      siteLoadData();
     }
   }, timeEnd);
 }
@@ -356,14 +357,14 @@ jQuery("#btnOnOffSearch").change(function () {
     DatosTabla("tablesoc", personas);
     document.getElementById("inputSearch").value = "";
   }
-  document.getElementById("ddSearch").classList.toggle('filter-display-none');
-  document.getElementById("barSearch").classList.toggle('filter-display-none');
+  document.getElementById("ddSearch").classList.toggle("filter-display-none");
+  document.getElementById("barSearch").classList.toggle("filter-display-none");
 });
 
 // Trabajo con el DropDown
 
 let ddFilter = document.getElementById("ddFilter");
-ddFilter.addEventListener('click', (e) => {
+ddFilter.addEventListener("click", (e) => {
   document.getElementById("inputSearch").value = "";
   document
     .getElementById("inputSearch")
@@ -373,9 +374,11 @@ ddFilter.addEventListener('click', (e) => {
   let inputSearch = document.getElementById("inputSearch");
   btnBuscar.addEventListener("click", () => {
     personasFiltrado = personas.filter((person) =>
-      person[filtername.toLowerCase()].toLowerCase().includes(inputSearch.value.toLowerCase())
+      person[filtername.toLowerCase()]
+        .toLowerCase()
+        .includes(inputSearch.value.toLowerCase())
     );
     document.getElementById("tablesoc").innerHTML = "";
     DatosTabla("tablesoc", personasFiltrado);
   });
-})
+});
