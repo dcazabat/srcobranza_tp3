@@ -1,9 +1,17 @@
 <template>
-  <div></div>
+  <div class="login">
+    <FormLogin />
+  </div>
 </template>
 
 <script>
-export default {};
+import FormLogin from "../components/FormLogin";
+
+export default {
+  components: {
+    FormLogin,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
