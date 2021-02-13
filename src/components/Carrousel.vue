@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center">
+  <div v-if="!isLogged" class="row justify-content-center">
     <div id="srcarrousel" class="carousel slide w-75" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#srcarrousel" data-slide-to="0" class="active"></li>
@@ -95,7 +95,14 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  store,
+  computed: {
+    ...mapState(["isLogged"]),
+  },
+  methods: {},
+};
 </script>
 
 <style></style>
