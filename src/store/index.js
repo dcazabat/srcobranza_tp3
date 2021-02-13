@@ -30,7 +30,7 @@ export default new Vuex.Store({
       state.users = payload.user
     },
     setCurrentuser(state, payload){
-      if(payload.currentUser.pwd === userPwd){
+      if(payload.currentUser.password === userPwd){
         state.currentUser = payload.currentUser;
         state.isLogged = true;
       }else{
