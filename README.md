@@ -1,14 +1,24 @@
-# Proyecto Curso Instituto AMENT
+# pjament
 
-El proyecto ira avanzando conforme evoluciona el curso.
+## Project setup
+```
+npm install
+```
 
-## Installation
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-Solo se debe clonar el repo y ejecutar el index.html, dentro de la carpeta html.
+### Compiles and minifies for production
+```
+npm run build
+```
 
-## Technologies
-HTML5, CSS, Javascript, ECMAS6, JSON.
+### Lints and fixes files
+```
+npm run lint
+```
 
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
