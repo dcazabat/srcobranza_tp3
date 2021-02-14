@@ -69,7 +69,7 @@ export default new Vuex.Store({
     },
     patchNewUser(user_id, data) {
       let newUser = `{"${JSON.parse(user_id)}": ${JSON.stringify(data)}}`;
-      
+
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -86,6 +86,30 @@ export default new Vuex.Store({
         .then(response => response.json())
         .catch(error => console.log('error', error));
 
+    },
+    postPerson(data) {
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        "id": 10,
+        "nombre": "Gilberto Gil",
+        "pais": "Chile",
+        "edad": 23,
+        "ocupacion": "Calidad"
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://sr-cobranza-default-rtdb.firebaseio.com/personas.json", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
     }
   },
   getters: {
