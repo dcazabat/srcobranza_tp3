@@ -64,6 +64,12 @@ export default new Vuex.Store({
     getusers(state) {
       return state.users
     },
+    getIsLogged(state){
+      return state.isLogged
+    },
+    getIsRegister(state){
+      return state.isRegister
+    },
     async isValidUser(state){
       await fetch(baseUrl + "/users/" + "admin" + ".json")
         .then(response => response.json())
