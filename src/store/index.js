@@ -32,6 +32,9 @@ export default new Vuex.Store({
       } else {
         console.log(msgWrongPwd)
       }
+    },
+    logOff(state){
+      state.isLogged=false;
     }
   },
   actions: {
