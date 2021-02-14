@@ -1,7 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { personsUrl, userUrl, baseUrl } from "../assets/js/urls";
-import { msgConexionFetchError, msgParseFetchError, msgWrongPwd } from "../assets/js/messages";
+import {
+  personsUrl,
+  userUrl,
+  baseUrl
+} from "../assets/js/urls";
+import {
+  msgConexionFetchError,
+  msgParseFetchError,
+  msgWrongPwd
+} from "../assets/js/messages";
 
 Vue.use(Vuex);
 
@@ -33,32 +41,52 @@ export default new Vuex.Store({
         console.log(msgWrongPwd)
       }
     },
-    logOff(state){
-      state.isLogged=false;
+    logOff(state) {
+      state.isLogged = false;
     }
   },
   actions: {
-    getAllPerons({ commit }) {
+    getAllPerons({
+      commit
+    }) {
       fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((person) => commit("setPersons", { person }))
+        .then((person) => commit("setPersons", {
+          person
+        }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllUsers({ commit }) {
+    getAllUsers({
+      commit
+    }) {
       fetch(userUrl)
         .then(res => res.json())
         .catch(err => console.log(msgConexionFetchError, err))
-        .then((user) => commit("setUsers", { user }))
+        .then((user) => commit("setUsers", {
+          user
+        }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    // isValidUser() {
-      // fetch(baseUrl + "/users/" + "admin" + ".json")
-      //   .then(response => response.json())
-      //   .catch(err => console.log(msgConexionFetchError, err))
-      //   .then(currentUser => console.log(currentUser))
-      //   .catch(error => console.log(msgParseFetchError, error));
-      // console.log(baseUrl + "/users/" + "admin" + ".json")
-    // }
+    patchNewUser(user_id, data) {
+      let newUser = `{"${JSON.parse(user_id)}": ${JSON.stringify(data)}}`;
+      
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      let raw = newUser;
+
+      let requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(userUrl, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.log('error', error));
+
+    }
   },
   getters: {
     getPersons(state) {
@@ -67,25 +95,24 @@ export default new Vuex.Store({
     getusers(state) {
       return state.users
     },
-    getIsLogged(state){
+    getIsLogged(state) {
       return state.isLogged
     },
-    getIsRegister(state){
+    getIsRegister(state) {
       return state.isRegister
     },
-    async isValidUser(state){
-      await fetch(baseUrl + "/users/" + "admin" + ".json")
+    async isValidUser(state) {
+      await fetch(baseUrl + "/users/" + userId + ".json")
         .then(response => response.json())
         .catch(err => console.log(msgConexionFetchError, err))
         .then(currentUser => {
-          if(currentUser.password === state.userPwd){
-            router.push({ name: 'Socios' })
+          if (currentUser.password === state.userPwd) {
+            router.push({
+              name: 'Socios'
+            })
             state.isRegister = true;
-            state.isLogged= true;
-          }else{
-            console.log("Error en la contraseña")
+            state.isLogged = true;
           }
-          console.log(currentUser.password)
         })
         .catch(error => console.log(msgParseFetchError, error));
     }
