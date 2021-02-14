@@ -2,13 +2,15 @@ import Vue from "vue";
 import Vuex from "vuex";
 import {
   personsUrl,
-  userUrl,
+  userUrl
+} from "../assets/js/urls";
+import {
   msgConexionFetchError,
   msgParseFetchError,
   msgUserFound,
   msgUserNotFound,
   msgWrongPwd
-} from "../assets/js/urls";
+} from "../assets/js/messages";
 
 Vue.use(Vuex);
 
