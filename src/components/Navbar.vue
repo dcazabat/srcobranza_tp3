@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <div v-if="!isLogged" class="container-fluid w-100 container-style">
+    <div v-if="!isLogged">
       <div class="row align-items-center headline">
         <div class="col col-md-2 w-25">
           <img
@@ -10,11 +10,18 @@
             alt="Logo Sr Cobranza"
           />
         </div>
-        <div class="col col-md-8 w-75">
+        <div class="col col-md-6 w-75">
           <p class="text-center title">Sr Cobranza</p>
         </div>
+        <div class="col col-md-2">
+          <p class="text-center h4">Donde Otros No Pueden</p>
+        </div>
         <div class="col col-md-2 w-25">
-          <router-link type="button" class="btn btn-info" to="/login">
+          <router-link
+            type="button"
+            class="btn btn-info float-right"
+            to="/login"
+          >
             <img
               src="../assets/images/login.svg"
               alt=""
@@ -27,13 +34,14 @@
         </div>
       </div>
     </div>
-    <div v-else class="container-fluid w-100 container-style">
+    <div v-else>
       <div class="row align-items-center headline">
         <div class="col col-md-12">
           <nav class="navbar navbar-expand-md navbar-dark">
             <a class="navbar-brand" href="#">
               <img
                 class="logo"
+                width="100"
                 src="../assets/images/logo.png"
                 alt="Logo Sr Cobranza"
               />
@@ -84,15 +92,22 @@
                   <a class="nav-link" href="#">Administracion</a>
                 </li>
               </ul>
-              <form class="my-2 my-lg-0" action="../html/index.html">
-                <button class="btn btn-danger my-2 my-sm-0" type="submit">
+              <div class="col col-md-2 w-25">
+                <router-link
+                  type="button"
+                  class="btn btn-danger float-right"
+                  to="/"
+                >
                   <img
-                    src="../assets/images/logout.svg"
-                    alt="SALIR"
-                    title="SALIR"
+                    src="../assets/images/login.svg"
+                    alt=""
+                    width="32"
+                    height="32"
+                    title="Ingresar"
+                    to="/login"
                   />
-                </button>
-              </form>
+                </router-link>
+              </div>
             </div>
           </nav>
         </div>

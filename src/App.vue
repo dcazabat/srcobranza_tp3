@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="container-fluid">
     <NavBar />
     <router-view />
     <Footer />
@@ -20,7 +20,7 @@ export default {
 
 <style>
 body {
-  background: black;
+  background-color: black !important;
 }
 #app {
   background-color: black;

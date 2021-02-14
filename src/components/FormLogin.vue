@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isRegister" class="container mx-6">
+  <div v-if="!isRegister" class="mx-6 d-flex justify-content-center">
     <div class="row">
       <form @click.prevent="isValidUser">
         <div class="form-group">
@@ -32,7 +32,7 @@
       </form>
     </div>
   </div>
-  <div v-else class="container my-4">
+  <div v-else class="my-4 justify-content-center">
     <h2 class="section-heading mb-4 h2">Register / Sign up form</h2>
     <div class="row">
       <div class="col-md-6 mb-4">
@@ -111,7 +111,6 @@
 import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
-
   computed: {
     ...mapState(["userId", "userPwd", "isRegister"]),
   },
