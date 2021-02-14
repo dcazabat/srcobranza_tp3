@@ -1,17 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { personsUrl, userUrl, baseUrl } from "../assets/js/urls";
-import { msgConexionFetchError, msgParseFetchError, msgUserFound, msgUserNotFound, msgWrongPwd } from "../assets/js/messages";
+import { msgConexionFetchError, msgParseFetchError, msgWrongPwd } from "../assets/js/messages";
 
 Vue.use(Vuex);
+
+import router from '../router'
 
 export default new Vuex.Store({
   state: {
     isLogged: false,
+    isRegister: false,
     personas: [],
     users: {},
-    userId: "",
-    userPwd: "",
+    userId: "admin",
+    userPwd: "admin*",
     currentUser: {}
   },
   mutations: {
@@ -45,13 +48,14 @@ export default new Vuex.Store({
         .then((user) => commit("setUsers", { user }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getUserById({ commit }, userId) {
-      fetch(baseUrl + "/users/" + userId + ".json")
-        .then(response => response.json())
-        .catch(err => console.log(msgConexionFetchError, err))
-        .then((currentUser) => commit("setCurrentuser", { currentUser }))
-        .catch(error => console.log(msgParseFetchError, error));
-    }
+    // isValidUser() {
+      // fetch(baseUrl + "/users/" + "admin" + ".json")
+      //   .then(response => response.json())
+      //   .catch(err => console.log(msgConexionFetchError, err))
+      //   .then(currentUser => console.log(currentUser))
+      //   .catch(error => console.log(msgParseFetchError, error));
+      // console.log(baseUrl + "/users/" + "admin" + ".json")
+    // }
   },
   getters: {
     getPersons(state) {
@@ -60,12 +64,21 @@ export default new Vuex.Store({
     getusers(state) {
       return state.users
     },
-    findUser(state, userId) {
-      if (state.users.find(user => Object.key(user) === userId)) {
-        console.log(msgUserFound)
-      } else {
-        console.log(msgUserNotFound)
-      }
+    async isValidUser(state){
+      await fetch(baseUrl + "/users/" + "admin" + ".json")
+        .then(response => response.json())
+        .catch(err => console.log(msgConexionFetchError, err))
+        .then(currentUser => {
+          if(currentUser.password === state.userPwd){
+            router.push({ name: 'Socios' })
+            state.isRegister = true;
+            state.isLogged= true;
+          }else{
+            console.log("Error en la contraseña")
+          }
+          console.log(currentUser.password)
+        })
+        .catch(error => console.log(msgParseFetchError, error));
     }
   },
   modules: {}

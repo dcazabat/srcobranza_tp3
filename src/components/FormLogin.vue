@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isRegister" class="container mx-6">
     <div class="row">
-      <form @click="isValidUser">
+      <form @click.prevent="isValidUser">
         <div class="form-group">
           <input
             v-model="userId"
@@ -111,15 +111,13 @@
 import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
-  state: {
-    isRegister: false,
-  },
+
   computed: {
-    ...mapState(["userId", "userPwd"]),
+    ...mapState(["userId", "userPwd", "isRegister"]),
   },
   methods: {
     ...mapMutations([""]),
-    ...mapGetters([""]),
+    ...mapGetters(["isValidUser"]),
     setAction(state) {
       return (state.isRegister = !state.isRegister);
     },
