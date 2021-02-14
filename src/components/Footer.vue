@@ -70,14 +70,20 @@
         />
       </a>
     </div>
-    <div class="mt-4 d-flex justify-content-center">
-      <font-awesome-icon
-        class="mr-2"
-        :icon="{ prefix: 'fas', iconName: 'copyright' }"
-        size="1x"
-      />
-      <p class="copy">Daniel Cazabat // Jorge Sardon</p>
-      <p class="copy">2021</p>
+    <div class="col mt-4 d-flex justify-content-center">
+      <div class="row">
+        <p class="copy">Daniel Cazabat // Jorge Sardon</p>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <p class="copy">
+        <font-awesome-icon
+          class="mr-2"
+          :icon="{ prefix: 'fas', iconName: 'copyright' }"
+          size="1x"
+        />
+        2021
+      </p>
     </div>
   </div>
 </template>
