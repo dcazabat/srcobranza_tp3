@@ -1,16 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import {
-  personsUrl,
-  userUrl
-} from "../assets/js/urls";
-import {
-  msgConexionFetchError,
-  msgParseFetchError,
-  msgUserFound,
-  msgUserNotFound,
-  msgWrongPwd
-} from "../assets/js/messages";
+import { personsUrl, userUrl, baseUrl } from "../assets/js/urls";
+import { msgConexionFetchError, msgParseFetchError, msgUserFound, msgUserNotFound, msgWrongPwd } from "../assets/js/messages";
 
 Vue.use(Vuex);
 
@@ -31,20 +22,19 @@ export default new Vuex.Store({
     setUsers(state, payload) {
       state.users = payload.user
     },
-    setCurrentuser(state, payload){
-      if(payload.currentUser.password === userPwd){
+    setCurrentuser(state, payload) {
+      if (payload.currentUser.password === state.userPwd) {
         state.currentUser = payload.currentUser;
         state.isLogged = true;
-      }else{
-        consoele.log(msgWrongPwd)
+      } else {
+        console.log(msgWrongPwd)
       }
     }
   },
   actions: {
     getAllPerons({ commit }) {
       fetch(personsUrl)
-        .then(res => res.json())
-        .catch(err => console.log(msgConexionFetchError, err))
+        .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
         .then((person) => commit("setPersons", { person }))
         .catch(error => console.log(msgParseFetchError, error));
     },
@@ -55,11 +45,11 @@ export default new Vuex.Store({
         .then((user) => commit("setUsers", { user }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getUserById({ commit },userId) {
-      fetch(baseUrl+"/users/"+userId+".json")
+    getUserById({ commit }, userId) {
+      fetch(baseUrl + "/users/" + userId + ".json")
         .then(response => response.json())
         .catch(err => console.log(msgConexionFetchError, err))
-        .then((currentUser) => commit("setCurrentuser",{ currentUser }))
+        .then((currentUser) => commit("setCurrentuser", { currentUser }))
         .catch(error => console.log(msgParseFetchError, error));
     }
   },

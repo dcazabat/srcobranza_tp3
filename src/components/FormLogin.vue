@@ -1,34 +1,36 @@
 <template>
-  <div v-if="isRegister">
-    <form @click="isValidUser">
-      <div class="form-group">
-        <input
-          v-model="userId"
-          type="text"
-          class="form-control"
-          id="InputUserId"
-          aria-describedby="userHelp"
-          placeholder="Id de Usuario"
-        />
-        <small id="userHelp" class="form-text text-muted"
-          >Ingrese el Usuario</small
-        >
-      </div>
-      <div class="form-group">
-        <input
-          v-model="userPwd"
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-          aria-describedby="pwdHelp"
-          placeholder="Contraseña"
-        />
-        <small id="pwdHelp" class="form-text text-muted"
-          >Ingrese la Contreseña</small
-        >
-      </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+  <div v-if="!isRegister" class="container mx-6">
+    <div class="row">
+      <form @click="isValidUser">
+        <div class="form-group">
+          <input
+            v-model="userId"
+            type="text"
+            class="form-control"
+            id="InputUserId"
+            aria-describedby="userHelp"
+            placeholder="Id de Usuario"
+          />
+          <small id="userHelp" class="form-text text-muted"
+            >Ingrese el Usuario</small
+          >
+        </div>
+        <div class="form-group">
+          <input
+            v-model="userPwd"
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            aria-describedby="pwdHelp"
+            placeholder="Contraseña"
+          />
+          <small id="pwdHelp" class="form-text text-muted"
+            >Ingrese la Contreseña</small
+          >
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
   </div>
   <div v-else class="container my-4">
     <h2 class="section-heading mb-4 h2">Register / Sign up form</h2>
@@ -106,22 +108,22 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
   state: {
     isRegister: false,
   },
-  computed:{
-      ...mapState(['userId','userPwd']);
+  computed: {
+    ...mapState(["userId", "userPwd"]),
   },
-  methods:{
-      ...mapMutations(['']),
-      ...mapGetters(['']),
-      setAction:{
-          isRegister = !isRegister,
-      }
-  }
+  methods: {
+    ...mapMutations([""]),
+    ...mapGetters([""]),
+    setAction(state) {
+      return (state.isRegister = !state.isRegister);
+    },
+  },
 };
 </script>
 
