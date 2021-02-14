@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="mb-4">
     <div v-if="!isLogged" class="container-fluid w-100 container-style">
       <div class="row align-items-center headline">
         <div class="col col-md-2 w-25">
           <img
             class="img-fluid"
+            width="100"
             src="../assets/images/logo.png"
             alt="Logo Sr Cobranza"
           />
@@ -13,7 +14,7 @@
           <p class="text-center title">Sr Cobranza</p>
         </div>
         <div class="col col-md-2 w-25">
-          <button type="button" class="btn btn-info" to="/login">
+          <router-link type="button" class="btn btn-info" to="/login">
             <img
               src="../assets/images/login.svg"
               alt=""
@@ -22,7 +23,7 @@
               title="Ingresar"
               to="/login"
             />
-          </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -103,7 +104,6 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  store,
   computed: {
     ...mapState(["isLogged"]),
   },
@@ -112,4 +112,13 @@ export default {
 </script>
 
 <style>
+.title {
+  text-transform: uppercase;
+  background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 60px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
 </style>
