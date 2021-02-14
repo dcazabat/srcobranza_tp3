@@ -1,6 +1,6 @@
 <template>
-  <div class="row justify-content-center">
-    <div id="srcarrousel" class="carousel slide w-75" data-ride="carousel">
+  <div v-if="!isLogged" class="row justify-content-center">
+    <div id="srcarrousel" class="carousel slide w-50" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#srcarrousel" data-slide-to="0" class="active"></li>
         <li data-target="#srcarrousel" data-slide-to="1"></li>
@@ -86,7 +86,12 @@
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Anterior</span>
       </a>
-      <a class="carousel-control-next" href="#srcarrousel" role="button" data-slide="next" >
+      <a
+        class="carousel-control-next"
+        href="#srcarrousel"
+        role="button"
+        data-slide="next"
+      >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Siguiente</span>
       </a>
@@ -95,7 +100,14 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState(["isLogged"]),
+  },
+  methods: {},
+};
 </script>
 
-<style></style>
+<style>
+</style>
