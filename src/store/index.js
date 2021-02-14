@@ -131,9 +131,6 @@ export default new Vuex.Store({
         .catch(err => console.log(msgConexionFetchError, err))
         .then(currentUser => {
           if (currentUser.password === state.userPwd) {
-            router.push({
-              name: 'Socios'
-            })
             state.isRegister = true;
             state.isLogged = true;
           }
