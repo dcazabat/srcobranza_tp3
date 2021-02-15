@@ -13,7 +13,7 @@ import {
 
 Vue.use(Vuex);
 
-import router from '../router'
+//import router from '../router'
 
 export default new Vuex.Store({
   state: {
@@ -87,7 +87,7 @@ export default new Vuex.Store({
         .catch(error => console.log('error', error));
 
     },
-    postPerson(data) {
+    postPerson(state) {
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -110,6 +110,7 @@ export default new Vuex.Store({
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
+      console.log(state);
     }
   },
   getters: {
@@ -126,7 +127,7 @@ export default new Vuex.Store({
       return state.isRegister
     },
     async isValidUser(state) {
-      await fetch(baseUrl + "/users/" + userId + ".json")
+      await fetch(baseUrl + "/users/" + state.userId + ".json")
         .then(response => response.json())
         .catch(err => console.log(msgConexionFetchError, err))
         .then(currentUser => {

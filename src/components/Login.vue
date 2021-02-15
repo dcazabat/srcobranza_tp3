@@ -5,13 +5,13 @@
         <div class="form-group">
           <input
             type="text"
-            name="userId"
-            v-model.trim="userId"
-            @input="$v.userId.$touch()"
             class="form-control"
             id="InputUserId"
             aria-describedby="userHelp"
             placeholder="Id de Usuario"
+            name="userId"
+            v-model.trim="userId"
+            @input="$v.userId.$touch()"
           />
           <small id="userHelp" class="form-text text-muted"
             >Ingrese el Usuario</small
@@ -27,12 +27,13 @@
         <div class="form-group">
           <input
             type="password"
-            v-model.trim="userPwd"
-            @input="$v.userPwd.$touch()"
             class="form-control"
             id="exampleInputPassword1"
             aria-describedby="pwdHelp"
             placeholder="Contraseña"
+            name="userPwd"
+            v-model.trim="userPwd"
+            @input="$v.userPwd.$touch()"
           />
           <small id="pwdHelp" class="form-text text-muted"
             >Ingrese la Contreseña</small
