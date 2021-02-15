@@ -7,6 +7,7 @@ import Home from "../views/Home.vue";
 import Socios from "../views/Socios.vue";
 import Cobradores from "../views/Cobradores.vue";
 import Login from "../views/Login.vue";
+import NotFound from '../views/404.vue';
 
 Vue.use(VueRouter);
 
@@ -15,7 +16,7 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    meta: {Auth:false, title:"Sr. Cobranza - Home"}
+    meta: { Auth: false, title: "Sr. Cobranza - Home" }
   },
   {
     path: "/login",
@@ -24,7 +25,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Login,
-    meta: {Auth:false, title:"Sr. Cobranza - Login"}
+    meta: { Auth: false, title: "Sr. Cobranza - Login" }
 
   },
   {
@@ -34,7 +35,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Cobradores,
-    meta: {Auth:false, title:"Sr. Cobranza - Cobradores"}
+    meta: { Auth: false, title: "Sr. Cobranza - Cobradores" }
 
   },
   {
@@ -44,7 +45,17 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Socios,
-    meta: {Auth:false, title:"Sr. Cobranza - Socios"}
+    meta: { Auth: false, title: "Sr. Cobranza - Socios" }
+
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: NotFound,
+    meta: { Auth: false, title: "Sr. Cobranza - Pagina No Existe" }
 
   }
 ];
@@ -60,10 +71,10 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
 
   // to and from are both route objects. must call `next`.
-  if(state.isLogged && (to.path === '/login' || to.path === '/')){
+  if (state.isLogged && (to.path === '/login' || to.path === '/')) {
     console.log("Estoy en el route beforeeach")
     next("/socios");
-  }else{
+  } else {
     next();
   }
 })

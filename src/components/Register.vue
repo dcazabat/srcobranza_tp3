@@ -10,20 +10,20 @@
           <input
             type="text"
             id="defaultRegisterFormFirstName"
-            class="form-control mb-4"
+            class="form-control"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
             placeholder="Id de Usuario"
             name="userId"
             v-model.trim="userId"
             @input="$v.userId.$touch()"
           />
-          <small
-            v-if="!$v.userId.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
+          <div v-if="!$v.userId.required && firstUp" class="text-left mb-0">
+            <small class="text-danger"> Id de Usuario es Requerido</small>
+          </div>
+          <div
+            class="form-row mb-4"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
           >
-            Id de Usuario es Requerido
-          </small>
-          <div class="form-row mb-4">
             <div class="col">
               <!-- First name -->
               <input
@@ -35,13 +35,12 @@
                 v-model.trim="userFirstName"
                 @input="$v.userFirstName.$touch()"
               />
-              <small
+              <div
                 v-if="!$v.userFirstName.required && firstUp"
-                class="alert alert-danger"
-                role="alert"
+                class="text-left mb-0"
               >
-                Nombre/s es Requerido
-              </small>
+                <small class="text-danger"> Nombre/s es Requerido</small>
+              </div>
             </div>
             <div class="col">
               <!-- Last name -->
@@ -54,39 +53,33 @@
                 v-model.trim="userLastName"
                 @input="$v.userLastName.$touch()"
               />
-              <small
+              <div
                 v-if="!$v.userLastName.required && firstUp"
-                class="alert alert-danger"
-                role="alert"
+                class="text-left mb-0"
               >
-                Apellido/s es Requerido
-              </small>
+                <small class="text-danger"> Apellido/s es Requerido</small>
+              </div>
             </div>
           </div>
           <!-- E-mail -->
           <input
             type="email"
             id="defaultRegisterFormEmail"
-            class="form-control mb-4"
+            class="form-control"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
             placeholder="E-mail"
             name="userEmail"
             v-model.trim="userEmail"
             @input="$v.userEmail.$touch()"
           />
-          <small
-            v-if="!$v.userEmail.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            E-mail es Requerido
-          </small>
-          <small
-            v-if="!$v.userEmail.email && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            E-mail es Invalido
-          </small>
+          <div v-if="firstUp" class="text-left mb-0">
+            <small v-if="!$v.userEmail.required" class="text-danger">
+              E-mail es Requerido</small
+            >
+            <small v-if="!$v.userEmail.email" class="text-danger">
+              E-mail es Invalido</small
+            >
+          </div>
           <!-- Password -->
           <input
             type="password"
@@ -100,17 +93,17 @@
           />
           <small
             id="defaultRegisterFormPasswordHelpBlock"
-            class="form-text text-muted mb-4"
+            class="form-text text-muted"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
           >
             Ingrese 8 caracteres minimo alfanumerico
           </small>
-          <small
+          <div
             v-if="!$v.userPassword.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
+            class="text-left mb-0"
           >
-            Contraseña Requerida
-          </small>
+            <small class="text-danger">Contraseña Requerida</small>
+          </div>
           <!-- Re-Password -->
           <input
             type="password"
@@ -124,42 +117,36 @@
           />
           <small
             id="defaultRegisterFormRePasswordHelpBlock"
-            class="form-text text-muted mb-4"
+            class="form-text text-muted"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
           >
             Ingrese 8 caracteres minimo alfanumerico
           </small>
-          <small
-            v-if="!$v.userRePassword.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            Contraseña Requerida
-          </small>
-          <small
-            v-if="!$v.userRePassword.sameAs && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            Contraseñas son Diferentes
-          </small>
+          <div v-if="firstUp" class="text-left mb-0">
+            <small v-if="!$v.userRePassword.required" class="text-danger"
+              >Contraseña Requerida</small
+            >
+            <small v-if="!$v.userRePassword.sameAs" class="text-danger"
+              >Contraseñas son Diferentes</small
+            >
+          </div>
           <!-- Phone number -->
           <input
             type="text"
             id="defaultRegisterPhonePassword"
-            class="form-control mb-4"
+            class="form-control"
+            :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
             placeholder="Teléfono"
             aria-describedby="defaultRegisterFormPhoneHelpBlock"
             name="userPhone"
             v-model.trim="userPhone"
             @input="$v.userPhone.$touch()"
           />
-          <small
-            v-if="!$v.userPhone.badFormat && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            Formato de Telefono Incorrecto. Ej. (1111) 11-1111
-          </small>
+          <div v-if="!$v.userPhone.badFormat && firstUp" class="text-left mb-0">
+            <small class="text-danger"
+              >Formato de Telefono Incorrecto. Ej. (1111) 11-1111</small
+            >
+          </div>
           <!-- Sign up button -->
           <button
             class="btn btn-info btn-block waves-effect waves-light"
@@ -173,7 +160,7 @@
             class="btn btn-danger btn-block waves-effect waves-light"
             type="reset"
           >
-            Restaurar
+            Reset Datos
           </button>
         </form>
       </section>

@@ -3,12 +3,14 @@
     <div v-if="!isLogged">
       <div class="row align-items-center headline">
         <div class="col col-md-2 w-25">
-          <img
-            class="img-fluid"
-            width="100"
-            src="../assets/images/logo.png"
-            alt="Logo Sr Cobranza"
-          />
+          <router-link to="/">
+            <img
+              class="img-fluid"
+              width="100"
+              src="../assets/images/logo.png"
+              alt="Logo Sr Cobranza"
+            />
+          </router-link>
         </div>
         <div class="col col-md-6 w-75">
           <p class="text-center title">Sr Cobranza</p>

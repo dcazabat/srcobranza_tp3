@@ -1,9 +1,15 @@
 <template>
-  <div></div>
+  <Table />
 </template>
 
 <script>
-export default {};
+import Table from "../components/Table";
+
+export default {
+  components: {
+    Table,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
