@@ -2,7 +2,7 @@
   <!-- Pie de Pagina (Footer) -->
 
   <div>
-    <div class="mt-5 d-flex justify-content-center">
+    <div class="mt-3 d-flex justify-content-center">
       <!--Twitter-->
       <a
         class="btn bg-twitter"
