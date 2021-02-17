@@ -1,4 +1,0 @@
-Tareas a realizar
-1- terminar el login
-2- terminar el register
-3- router.push({ path: 'home' })
