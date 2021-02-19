@@ -51,7 +51,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getAllPerons({ commit }) {
+    getAllPerons({
+      commit
+    }) {
       fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
         .then((person) => commit("setPersons", {
@@ -59,7 +61,9 @@ export default new Vuex.Store({
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllUsers({ commit }) {
+    getAllUsers({
+      commit
+    }) {
       fetch(userUrl)
         .then(res => res.json())
         .catch(err => console.log(msgConexionFetchError, err))
@@ -68,7 +72,9 @@ export default new Vuex.Store({
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllCobradores({ commit }) {
+    getAllCobradores({
+      commit
+    }) {
       fetch(cobradoresUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
         .then((cobrador) => commit("setPersons", {
@@ -137,6 +143,51 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
       console.log(state);
+    },
+    delUser(context, payload) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(baseUrl + "/users/" + payload.userId + ".json", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    },
+    delPersonas(context, payload) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(baseUrl + "/personas/" + payload.personId + ".json", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    },
+    delCobrador(context, payload) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(baseUrl + "/cobradores/" + payload.cobradorId + ".json", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
     }
   },
   getters: {
