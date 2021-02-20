@@ -1,13 +1,13 @@
 <template>
-  <Table />
+  <TableSoc />
 </template>
 
 <script>
-import Table from "../components/Table";
+import TableSoc from "../components/TableSoc";
 
 export default {
   components: {
-    Table,
+    TableSoc,
   },
 };
 </script>
