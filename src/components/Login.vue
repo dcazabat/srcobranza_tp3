@@ -52,41 +52,83 @@
         <button type="submit" class="btn btn-primary" :disabled="$v.$invalid">
           Login
         </button>
+        <div v-if="errorInForm">
+          <small
+            v-if="!!userNotRegis && firstUp"
+            class="alert alert-danger"
+            role="alert"
+          >
+            Usuario NO Registrado
+          </small>
+          <small
+            v-if="!!pwdIsCorrect && firstUp"
+            class="alert alert-danger"
+            role="alert"
+          >
+            Contraseña Incorrecta
+          </small>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
+// import { mapState, mapMutations, mapGetters } from "vuex";
 import { required } from "vuelidate/lib/validators";
 import router from "../router";
 
 export default {
   data() {
     return {
+      errorInForm: false,
+      userNotRegis: false,
+      userPwdError: false,
       firstUp: false,
     };
   },
   computed: {
-    ...mapState(["userId", "userPwd", "isLogged"]),
+    userId() {
+      return this.$store.state.userId;
+    },
+    userPwd() {
+      return this.$store.state.userPwd;
+    },
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
+    isRegister() {
+      return this.$store.state.isRegister;
+      this.pwdIsCorrect = true;
+    },
+    pwdIsCorrect() {
+      return this.$store.state.pwdIsCorrect;
+    },
   },
   methods: {
-    ...mapMutations([""]),
-    ...mapGetters(["isValidUser"]),
     SubmitUserLogin() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.firstUp = true;
         return false;
       } else {
-        this.$getters.$isValidaUser;
-        if (!this.isLogged) {
-          this.firstUp = false;
+        this.$store.dispatch("isValidaUser");
+        if (this.$store.state.isRegister) {
+          if (!this.$store.state.pwdIsCorrect) {
+            this.errorInForm = true;
+            this.userNotRegis = false;
+            this.pwdIsCorrect = true;
+            return false;
+          } else {
+            router.push({ name: "Socios" });
+          }
+        } else {
+          this.errorInForm = true;
+          this.userNotRegis = true;
+          this.pwdIsCorrect = false;
           return false;
         }
       }
-      router.push({ name: "Socios" });
     },
   },
   validations: {
