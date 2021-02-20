@@ -50,11 +50,11 @@ export default new Vuex.Store({
     },
     pwd_is_correct(state){
       state.pwdIsCorrect = true;
-
     },
     logOff(state) {
       state.isLogged = false;
       state.isRegister = false,
+      state.pwdIsCorrect = false;
       state.currentUser = {};
     },
     loggin(state, payload) {
@@ -72,9 +72,7 @@ export default new Vuex.Store({
     }) {
       fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((person) => commit("setPersons", {
-          person
-        }))
+        .then((person) => commit("setPersons", { person }))
         .catch(error => console.log(msgParseFetchError, error));
     },
     getAllUsers({
@@ -200,9 +198,7 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    isValidUser({
-      commit
-    }) {
+    isValidUser({ commit }) {
       fetch(baseUrl + "/users/" + userId + ".json")
         .then(response => response.json())
         .catch(err => {
