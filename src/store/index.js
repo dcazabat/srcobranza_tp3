@@ -25,6 +25,7 @@ export default new Vuex.Store({
     users: {},
     userId: "",
     userPwd: "",
+    pwdIsCorrect: false,
     currentUser: {}
   },
   mutations: {
@@ -47,8 +48,14 @@ export default new Vuex.Store({
         console.log(msgWrongPwd)
       }
     },
+    pwd_is_correct(state){
+      state.pwdIsCorrect = true;
+
+    },
     logOff(state) {
       state.isLogged = false;
+      state.isRegister = false,
+      state.currentUser = {};
     },
     loggin(state, payload) {
       state.currentUser = payload.currentUser
@@ -60,23 +67,35 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getAllPerons({ commit }) {
+    getAllPerons({
+      commit
+    }) {
       fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((person) => commit("setPersons", { person }))
+        .then((person) => commit("setPersons", {
+          person
+        }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllUsers({ commit }) {
+    getAllUsers({
+      commit
+    }) {
       fetch(userUrl)
         .then(res => res.json())
         .catch(err => console.log(msgConexionFetchError, err))
-        .then((user) => commit("setUsers", { user }))
+        .then((user) => commit("setUsers", {
+          user
+        }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllCobradores({ commit }) {
+    getAllCobradores({
+      commit
+    }) {
       fetch(cobradoresUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((cobrador) => commit("setPersons", { cobrador }))
+        .then((cobrador) => commit("setPersons", {
+          cobrador
+        }))
         .catch(error => console.log(msgParseFetchError, error));
     },
     patchNewUser(context, payload) {
@@ -181,8 +200,10 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    isValidUser({ commit }, payload) {
-      fetch(baseUrl + "/users/" + payload.userId + ".json")
+    isValidUser({
+      commit
+    }) {
+      fetch(baseUrl + "/users/" + userId + ".json")
         .then(response => response.json())
         .catch(err => {
           commit("isRegistered", false);
@@ -190,8 +211,9 @@ export default new Vuex.Store({
         })
         .then(currentUser => {
           commit("isRegistered", true)
-          if (currentUser.password === payload.userPwd) {
+          if (currentUser.password === userPwd) {
             commit("loggin", currentUser)
+            commit("pwd_is_correct", true)
           }
         })
         .catch(error => console.log(msgParseFetchError, error));
@@ -212,6 +234,9 @@ export default new Vuex.Store({
     },
     getIsRegister(state) {
       return state.isRegister
+    },
+    getCurrentUser(state) {
+      return state.currentUser
     }
   },
   modules: {}
