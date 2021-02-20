@@ -4,7 +4,7 @@
       <section>
         <form
           @click.prevent="SubmitUserRegister"
-          class="text-center border border-light p-3"
+          class="text-center border border-warning rounded-lg bg-light p-3"
         >
           <!-- User ID -->
           <input

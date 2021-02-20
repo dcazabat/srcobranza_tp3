@@ -1,7 +1,10 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-4 mt-3 p-3 w-25 border border-light">
-      <form @click.prevent="SubmitUserLogin">
+    <div class="col-md-6 mb-4 mt-3 w-25">
+      <form
+        @click.prevent="SubmitUserLogin"
+        class="text-center border border-warning bg-light rounded-lg p-3"
+      >
         <div class="form-group">
           <input
             type="text"
@@ -97,5 +100,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 </style>

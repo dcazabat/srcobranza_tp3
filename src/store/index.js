@@ -21,8 +21,8 @@ export default new Vuex.Store({
     isRegister: false,
     personas: [],
     users: {},
-    userId: "admin",
-    userPwd: "admin*",
+    userId: "",
+    userPwd: "",
     currentUser: {}
   },
   mutations: {
