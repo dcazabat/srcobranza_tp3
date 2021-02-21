@@ -120,6 +120,8 @@ export default {
           break;
         case "del":
           //Borra un Item
+          console.log(this.record.id);
+          //this.$store.dispatch("delPersonas", { personId: this.record.id });
           break;
         case "edit":
           //Edita un Item
