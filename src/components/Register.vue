@@ -173,7 +173,6 @@
 
 <script>
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
-// import router from "../router";
 
 export default {
   name: "Register",
@@ -196,7 +195,7 @@ export default {
   },
   methods: {
     SubmitUserRegister() {
-      // this.$v.$touch();
+      this.$v.$touch();
       // if (this.$v.$invalid) {
       //   this.firstUp = true;
       //   return false;

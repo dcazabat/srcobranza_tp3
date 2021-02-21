@@ -81,6 +81,7 @@
               data-dismiss="modal"
               data-action="add"
               value="Aceptar"
+              :disabled="$v.$invalid"
               @click="RecordSave(action)"
             />
           </div>
@@ -91,6 +92,8 @@
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   name: "FormModal",
   data() {
@@ -117,18 +120,35 @@ export default {
       switch (action) {
         case "add":
           //Agrega un Item
+          this.$store.dispatch("postPerson", { record: this.record });
           break;
         case "del":
           //Borra un Item
-          console.log(this.record.id);
-          //this.$store.dispatch("delPersonas", { personId: this.record.id });
+          this.$store.dispatch("deletePerson", { personId: this.record.id });
           break;
         case "edit":
           //Edita un Item
+          this.$store.dispatch("updatePerson", { personId: this.record });
           break;
         default:
           break;
       }
+    },
+  },
+  validations: {
+    record: {
+      fullname: {
+        required,
+      },
+      country: {
+        required,
+      },
+      age: {
+        required,
+      },
+      occupation: {
+        required,
+      },
     },
   },
 };
