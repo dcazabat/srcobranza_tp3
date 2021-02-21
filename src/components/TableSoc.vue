@@ -244,7 +244,6 @@ export default {
       console.log(val);
     },
     isSelectColumn: function (val) {
-      console.log(val);
       this.inputSearch = "";
       if (val != "Columnas...") {
         this.isEnabledSearch = true;
@@ -255,7 +254,6 @@ export default {
       }
     },
     isCheckAll: function (val) {
-      console.log("En watch");
       this.AcctionsCheck(val);
     },
   },
@@ -288,8 +286,7 @@ export default {
       for (let index = 0; index < checkbox.length; index++) {
         const element = checkbox[index].children[0];
         if (element.checked) {
-          console.log(element.value);
-          //this.$store.dispatch("delPersonas", { personId: element.value });
+          this.$store.dispatch("deletePerson", { personId: element.value });
         }
       }
     },
@@ -325,10 +322,6 @@ export default {
     },
   },
 };
-
-//Funciones Propias
-
-// require("../assets/js/bootstrap4-toggle.min.js");
 </script>
 
 <style>

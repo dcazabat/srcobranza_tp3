@@ -120,14 +120,15 @@ export default {
       switch (action) {
         case "add":
           //Agrega un Item
+          this.$store.dispatch("postPerson", { record: this.record });
           break;
         case "del":
           //Borra un Item
-          console.log(this.record.id);
-          //this.$store.dispatch("delPersonas", { personId: this.record.id });
+          this.$store.dispatch("deletePerson", { personId: this.record.id });
           break;
         case "edit":
           //Edita un Item
+          this.$store.dispatch("updatePerson", { personId: this.record });
           break;
         default:
           break;
