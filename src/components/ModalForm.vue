@@ -81,6 +81,7 @@
               data-dismiss="modal"
               data-action="add"
               value="Aceptar"
+              :disabled="$v.$invalid"
               @click="RecordSave(action)"
             />
           </div>
@@ -91,6 +92,8 @@
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   name: "FormModal",
   data() {
@@ -129,6 +132,22 @@ export default {
         default:
           break;
       }
+    },
+  },
+  validations: {
+    record: {
+      fullname: {
+        required,
+      },
+      country: {
+        required,
+      },
+      age: {
+        required,
+      },
+      occupation: {
+        required,
+      },
     },
   },
 };
