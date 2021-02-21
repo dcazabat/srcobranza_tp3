@@ -41,11 +41,11 @@ export default new Vuex.Store({
   mutations: {
     setRecord(state, payload) {
       state.record = {
-        id: Object.entries(payload)[0],
-        fullname: Object.entries(payload)[1].nombre,
-        country: Object.entries(payload)[1].pais,
-        age: Object.entries(payload)[1].edad,
-        occupation: Object.entries(payload)[1].ocupacion
+        id: payload.id,
+        fullname: payload.result.nombre,
+        country: payload.result.pais,
+        age: payload.result.edad,
+        occupation: payload.result.ocupacion
       }
     },
     resetRecord(state,payload){
@@ -123,7 +123,7 @@ export default new Vuex.Store({
         fetch(baseUrl + "/personas/" + payload.id + ".json", requestOptions)
           .then(response => response.json())
           .then(result => commit("setRecord", {
-            result
+            result,id:payload.id
           }))
           .catch(error => console.log('error', error));
       }
@@ -134,7 +134,7 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(baseUrl + "/cobradores/" + payload.ud + ".json", requestOptions)
+      fetch(baseUrl + "/cobradores/" + payload.id + ".json", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
