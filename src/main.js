@@ -11,6 +11,16 @@ Vue.config.productionTip = false;
 Vue.use(ToggleButton)
 Vue.use(Vuelidate);
 
+Vue.filter('capitalize', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
+Vue.filter('upper', function (value) {
+  if (!value) return ''
+  return value.toString().toUpperCase()
+})
+
 new Vue({
   store,
   router,
