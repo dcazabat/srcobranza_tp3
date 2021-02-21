@@ -39,12 +39,24 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setRecord(state, payload) {
+      state.record = {
+        id: Object.entries(payload)[0],
+        fullname: Object.entries(payload)[1].nombre,
+        country: Object.entries(payload)[1].pais,
+        age: Object.entries(paylaod)[1].edad,
+        occupation: Object.entries(payload)[1].ocupacion
+      }
+    },
+    resetRecord(state,payload){
+      state.record=payload.record
+    },
     setPersons(state, payload) {
-      state.personas = payload.person;
+      state.personas = Object.entries(payload.person);
       console.log(state.personas)
     },
     setCobrador(state, payload) {
-      state.cobradores = payload.cobrador;
+      state.cobradores = Object.entries(payload.cobrador);
       console.log(state.cobradores)
     },
     setUsers(state, payload) {
@@ -67,7 +79,7 @@ export default new Vuex.Store({
       // state.isRegister = false;
       // state.pwdIsCorrect = false;
       // state.currentUser = {};
-      //router.push({ path: '/' })
+      // router.push({ path: '/' })
     },
     loggin(state, payload) {
       state.currentUser = payload.currentUser
@@ -79,13 +91,53 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getAllPerons({
+    getAllPersons({
       commit
     }) {
       fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((person) => commit("setPersons", { person }))
+        .then((person) => commit("setPersons", {
+          person
+        }))
         .catch(error => console.log(msgParseFetchError, error));
+    },
+    getPersonById({
+      commit
+    }, payload) {
+      if (payload.id === 0) {
+        commit("resetRecord", {
+          record: {
+            id: 0,
+            fullname: '',
+            country: '',
+            age: 0,
+            occupation: '',
+          }
+        })
+      } else {
+        let requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        fetch(baseUrl + "/personas/" + payload.id + ".json", requestOptions)
+          .then(response => response.json())
+          .then(result => commit("setRecord", {
+            result
+          }))
+          .catch(error => console.log('error', error));
+      }
+    },
+    getCobradoresById(context, payload) {
+      let requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      fetch(baseUrl + "/cobradores/" + payload.ud + ".json", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
     },
     getAllUsers({
       commit
@@ -210,7 +262,9 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    async isValidUser({ commit }, payload) {
+    async isValidUser({
+      commit
+    }, payload) {
       await fetch(baseUrl + "/users/" + payload.userId + ".json")
         .then(response => response.json())
         .catch(err => {
@@ -225,7 +279,9 @@ export default new Vuex.Store({
             commit("pwd_is_correct", true)
             this.isLogged = true
             console.log(this.isLogged, this.isRegister)
-            router.replace({ path: "/socios" });
+            router.replace({
+              path: "/socios"
+            });
           }
         })
         .catch(error => console.log(msgParseFetchError, error));
