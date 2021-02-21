@@ -179,18 +179,18 @@ export default new Vuex.Store({
 
     },
     updatePerson(context, payload) {
-      let newUser = `{"${payload.record.id}": ${
-        payload.record.edad,
-         payload.record.nombre,
-         payload.record.ocupacion,
-         payload.record.pais
-       }}}`;
+      let newUser = `{
+        "edad":  ${payload.personId.age},
+         "nombre":"${payload.personId.fullname}",
+         "ocupacion":"${payload.personId.occupation}",
+         "pais":"${payload.personId.country}"
+       }`;
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
       let raw = newUser;
-
+       console.log(raw)
       let requestOptions = {
         method: 'PATCH',
         headers: myHeaders,
@@ -198,7 +198,7 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(userUrl, requestOptions)
+      fetch(baseUrl+"/personas/"+payload.personId.id+".json", requestOptions)
         .then(response => response.json())
         .catch(error => console.log('error', error));
 
