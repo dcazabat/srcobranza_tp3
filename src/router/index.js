@@ -8,6 +8,7 @@ import Socios from "../views/Socios.vue";
 import Cobradores from "../views/Cobradores.vue";
 import Login from "../views/Login.vue";
 import NotFound from '../views/404.vue';
+import UnAuthorized from '../views/401.vue'
 
 Vue.use(VueRouter);
 
@@ -35,7 +36,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Cobradores,
-    meta: { Auth: false, title: "Sr. Cobranza - Cobradores" }
+    meta: { Auth: true, title: "Sr. Cobranza - Cobradores" }
 
   },
   {
@@ -45,7 +46,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Socios,
-    meta: { Auth: false, title: "Sr. Cobranza - Socios" }
+    meta: { Auth: true, title: "Sr. Cobranza - Socios" }
 
   },
   {
@@ -56,6 +57,16 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: NotFound,
     meta: { Auth: false, title: "Sr. Cobranza - Pagina No Existe" }
+
+  },
+  {
+    path: "/unauthorired",
+    name: "UnAuthorized",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: UnAuthorized,
+    meta: { Auth: false, title: "Sr. Cobranza - Error en Acceso" }
 
   }
 ];
@@ -71,11 +82,20 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
 
   // to and from are both route objects. must call `next`.
-  if (state.isLogged && (to.path === '/login' || to.path === '/')) {
-    console.log("Estoy en el route beforeeach")
-    next("/socios");
+
+  if (to.meta.Auth) {
+    if (state.isLogged && (to.path != '/login' || to.path != '/')) {
+      next();
+    } else {
+      console.log('Con Auth, Sin Loguearse y no va a Login o /')
+      next({ name: 'UnAuthorized' })
+    }
   } else {
-    next();
+    if (from.path == '/socios' || from.path == '/cobradores') {
+      next({ name: 'UnAuthorized' })
+    } else {
+      next();
+    }
   }
 })
 

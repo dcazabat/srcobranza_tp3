@@ -14,7 +14,7 @@ import {
 
 Vue.use(Vuex);
 
-//import router from '../router'
+import router from '../router'
 
 export default new Vuex.Store({
   state: {
@@ -48,14 +48,16 @@ export default new Vuex.Store({
         console.log(msgWrongPwd)
       }
     },
-    pwd_is_correct(state){
-      state.pwdIsCorrect = true;
+    pwd_is_correct(state, payload) {
+      state.pwdIsCorrect = payload;
     },
     logOff(state) {
+      console.log('Logout')
       state.isLogged = false;
-      state.isRegister = false,
+      state.isRegister = false;
       state.pwdIsCorrect = false;
       state.currentUser = {};
+      router.replace({ path: '/' })
     },
     loggin(state, payload) {
       state.currentUser = payload.currentUser
@@ -198,8 +200,8 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    isValidUser({ commit }) {
-      fetch(baseUrl + "/users/" + userId + ".json")
+    async isValidUser({ commit }, payload) {
+      await fetch(baseUrl + "/users/" + payload.userId + ".json")
         .then(response => response.json())
         .catch(err => {
           commit("isRegistered", false);
@@ -207,9 +209,13 @@ export default new Vuex.Store({
         })
         .then(currentUser => {
           commit("isRegistered", true)
-          if (currentUser.password === userPwd) {
+          this.isRegister = true
+          if (currentUser.password === payload.userPwd) {
             commit("loggin", currentUser)
             commit("pwd_is_correct", true)
+            this.isLogged = true
+            console.log(this.isLogged, this.isRegister)
+            router.replace({ path: "/socios" });
           }
         })
         .catch(error => console.log(msgParseFetchError, error));

@@ -32,6 +32,11 @@ export default {
     Login,
     Register,
   },
+  computed: {
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
+  },
 };
 </script>
 
