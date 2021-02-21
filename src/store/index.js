@@ -53,11 +53,9 @@ export default new Vuex.Store({
     },
     setPersons(state, payload) {
       state.personas = Object.entries(payload.person);
-      console.log(state.personas)
     },
     setCobrador(state, payload) {
       state.cobradores = Object.entries(payload.cobrador);
-      console.log(state.cobradores)
     },
     setUsers(state, payload) {
       state.users = payload.user
@@ -180,8 +178,38 @@ export default new Vuex.Store({
         .catch(error => console.log('error', error));
 
     },
+    updatePerson(context, payload) {
+      let newUser = `{"${payload.record.id}": ${
+        payload.record.edad,
+         payload.record.nombre,
+         payload.record.ocupacion,
+         payload.record.pais
+       }}}`;
+
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      let raw = newUser;
+
+      let requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(userUrl, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.log('error', error));
+
+    },
     postPerson(context, payload) {
-      let newPerson = JSON.stringify(payload.data);
+      let newPerson = {
+       edad:payload.record.edad,
+        nombre: payload.record.nombre,
+        ocupacion:payload.record.ocupacion,
+        pais:payload.record.pais
+      }
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -201,7 +229,12 @@ export default new Vuex.Store({
         .catch(error => console.log('error', error));
     },
     postcobrador(context, payload) {
-      let newCobrador = JSON.stringify(payload.data);
+      let newCobrador = {
+        edad:payload.record.edad,
+         nombre: payload.record.nombre,
+         ocupacion:payload.record.ocupacion,
+         pais:payload.record.pais
+       };
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -234,7 +267,7 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    delPersonas(context, payload) {
+    deletePerson({commit}, payload) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -247,6 +280,7 @@ export default new Vuex.Store({
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
+      commit("getAllPersons")
     },
     delCobrador(context, payload) {
       var myHeaders = new Headers();
