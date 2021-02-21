@@ -95,11 +95,13 @@
           >
             Ingrese 8 caracteres minimo alfanumerico
           </small>
-          <div
-            v-if="!$v.userPassword.required && firstUp"
-            class="text-left mb-0"
-          >
-            <small class="text-danger">Contraseña Requerida</small>
+          <div v-if="firstUp" class="text-left mb-0">
+            <small v-if="!$v.userPassword.required" class="text-danger"
+              >Contraseña Requerida</small
+            >
+            <small v-if="!$v.userPassword.minLength" class="text-danger"
+              >Son 8 caracteres minimo alfanumericos</small
+            >
           </div>
           <!-- Re-Password -->
           <input
@@ -122,6 +124,9 @@
           <div v-if="firstUp" class="text-left mb-0">
             <small v-if="!$v.userRePassword.required" class="text-danger"
               >Contraseña Requerida</small
+            >
+            <small v-if="!$v.userRePassword.minLength" class="text-danger"
+              >Son 8 caracteres minimo alfanumericos</small
             >
             <small v-if="!$v.userRePassword.sameAs" class="text-danger"
               >Contraseñas son Diferentes</small
@@ -167,10 +172,11 @@
 </template>
 
 <script>
-import { required, email, sameAs } from "vuelidate/lib/validators";
+import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
 // import router from "../router";
 
 export default {
+  name: "Register",
   data() {
     return {
       userId: "",
@@ -217,9 +223,11 @@ export default {
     },
     userPassword: {
       required,
+      minLength: minLength(8),
     },
     userRePassword: {
       required,
+      minLength: minLength(8),
       sameAs: sameAs("userPassword"),
     },
     userPhone: {

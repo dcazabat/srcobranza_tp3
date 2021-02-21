@@ -16,13 +16,11 @@
           <small id="userHelp" class="form-text text-muted"
             >Ingrese el Usuario</small
           >
-          <small
-            v-if="!$v.userId.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            Id de Usuario es Requerido
-          </small>
+          <div v-if="firstUp" class="text-left mb-0">
+            <small v-if="!$v.userId.required" class="text-danger"
+              >Id de Usuario es Requerido</small
+            >
+          </div>
         </div>
         <div class="form-group">
           <input
@@ -38,13 +36,14 @@
           <small id="pwdHelp" class="form-text text-muted"
             >Ingrese la Contreseña</small
           >
-          <small
-            v-if="!$v.userPwd.required && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
-            Contraseña Requerida
-          </small>
+          <div v-if="firstUp" class="text-left mb-0">
+            <small v-if="!$v.userPwd.required" class="text-danger"
+              >Contraseña Requerida</small
+            >
+            <small v-if="!$v.userPwd.minLength" class="text-danger"
+              >Son 8 caracteres minimo alfanumericos</small
+            >
+          </div>
         </div>
         <button
           type="submit"
@@ -76,11 +75,10 @@
 </template>
 
 <script>
-// import { mapState, mapMutations, mapGetters } from "vuex";
-import { required } from "vuelidate/lib/validators";
-import { router } from "../router";
+import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
+  name: "Login",
   data() {
     return {
       userId: "",
@@ -113,17 +111,12 @@ export default {
           userId: this.userId,
           userPwd: this.userPwd,
         });
+        console.log(this.$store.state.isRegister);
         if (this.$store.state.isRegister) {
-          console.log("usuario valido");
           if (!this.pwdIsCorrect) {
-            console.log("pwd incorrecto");
             this.errorInForm = true;
             this.userNotRegis = false;
             return false;
-          } else {
-            console.log("pwd y usuario correcto");
-            router.replace({ path: "/socios" });
-            return true;
           }
         } else {
           this.errorInForm = true;
@@ -139,6 +132,7 @@ export default {
     },
     userPwd: {
       required,
+      minLength: minLength(4),
     },
   },
 };

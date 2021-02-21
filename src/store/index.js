@@ -26,7 +26,17 @@ export default new Vuex.Store({
     userId: "",
     userPwd: "",
     pwdIsCorrect: false,
-    currentUser: {}
+    currentUser: {},
+    title: '',
+    action: '',
+    showModal: false,
+    record: {
+      id: 0,
+      fullname: '',
+      country: '',
+      age: 0,
+      occupation: '',
+    },
   },
   mutations: {
     setPersons(state, payload) {
@@ -54,10 +64,10 @@ export default new Vuex.Store({
     logOff(state) {
       console.log('Logout')
       state.isLogged = false;
-      state.isRegister = false;
-      state.pwdIsCorrect = false;
-      state.currentUser = {};
-      router.replace({ path: '/' })
+      // state.isRegister = false;
+      // state.pwdIsCorrect = false;
+      // state.currentUser = {};
+      //router.push({ path: '/' })
     },
     loggin(state, payload) {
       state.currentUser = payload.currentUser

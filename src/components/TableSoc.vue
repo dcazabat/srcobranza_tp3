@@ -3,13 +3,12 @@
     <div class="row">
       <div class="col-6 col-sm-3 col-md-3 col-lg-2 aligne-items-center">
         <span class="text-light">Filtros </span>
-        <input
-          id="btnOnOffSearch"
-          type="checkbox"
-          data-toggle="toggle"
-          data-onstyle="success"
-          data-offstyle="danger"
-          v-model="isFilter"
+        <toggle-button
+          :value="isFilter"
+          color="#61FF33"
+          background-color="#61FF33"
+          :labels="true"
+          @change="toggleFilter"
         />
       </div>
       <div
@@ -62,6 +61,7 @@
         </form>
       </div>
     </div>
+
     <div class="table-responsive">
       <div class="table-wrapper">
         <div class="table-title">
@@ -70,12 +70,21 @@
               <h2><b>Socios</b></h2>
             </div>
             <div class="col-sm-10 col-10">
+              <button class="btn btn-danger" @click="DelSelectedItem">
+                <img
+                  src="../assets/images/trash.svg"
+                  width="20"
+                  height="20"
+                  alt="Borrar Selected"
+                  data-action="delAllItems"
+                  title="Borrar Socios Seleccionados"
+                />
+              </button>
               <a
-                href="#addModal"
-                id="btnAdd"
-                class="btn btn-success acciones"
-                data-action="loadAdd"
+                href="#showFormModal"
+                class="btn btn-success"
                 data-toggle="modal"
+                @click="AddItem"
               >
                 <img
                   src="../assets/images/add.svg"
@@ -84,21 +93,6 @@
                   alt="Agregar"
                   data-action="loadAdd"
                   title="Agregar Socio"
-                />
-              </a>
-              <a
-                id="btnDeleteAll"
-                class="btn btn-danger acciones"
-                data-action="loadDeleteAll"
-                data-toggle="modal"
-              >
-                <img
-                  src="../assets/images/trash.svg"
-                  width="20"
-                  height="20"
-                  alt="Borrar"
-                  data-action="loadDeleteAll"
-                  title="Borrar Seleccionados"
                 />
               </a>
             </div>
@@ -140,11 +134,12 @@
               <td>{{ item.ocupacion }}</td>
               <td>
                 <a
-                  href="#deleteModal"
+                  href="#showFormModal"
                   class="btn btn-danger btn-sm"
                   data-toggle="modal"
                   data-action="loadDelete"
                   :data-id="item.id"
+                  @click="DeleteItem(item.id)"
                   ><img
                     src="../assets/images/trash.svg"
                     width="10"
@@ -152,13 +147,15 @@
                     alt="Borrar"
                     title="Borrar"
                     data-action="loadDelete"
-                    :data-id="item.id" /></a
+                    :data-id="item.id"
+                  /> </a
                 ><a
-                  href="#editModal"
+                  href="#showFormModal"
                   class="btn btn-warning btn-sm"
                   data-toggle="modal"
                   data-action="loadEdit"
                   :data-id="item.id"
+                  @click="UpdateItem(item.id)"
                   ><img
                     src="../assets/images/pencil.svg"
                     width="10"
@@ -167,100 +164,26 @@
                     title="Editar"
                     data-action="loadEdit"
                     :data-id="item.id"
-                /></a>
+                  />
+                </a>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <!-- Forms Modals, Add, Edit, Delete -->
-    <!-- Add Modal -->
-    <div id="addModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form>
-            <div class="modal-header">
-              <h4 class="modal-title">Agregar Socio</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-hidden="true"
-              >
-                &times;
-              </button>
-            </div>
-            <input id="idA" type="hidden" value="" />
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Apellido y Nombre</label>
-                <input
-                  type="text"
-                  id="apellidoA"
-                  class="form-control"
-                  required
-                  autocomplete="off"
-                />
-              </div>
-              <div class="form-group">
-                <label>Pais</label>
-                <input
-                  type="text"
-                  id="paisA"
-                  class="form-control"
-                  required
-                  autocomplete="off"
-                />
-              </div>
-              <div class="form-group">
-                <label>Edad</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="10"
-                  id="edadA"
-                  class="form-control"
-                  required
-                  autocomplete="off"
-                />
-              </div>
-              <div class="form-group">
-                <label>Ocupacion</label>
-                <input
-                  type="text"
-                  id="ocupacionA"
-                  class="form-control"
-                  required
-                  autocomplete="off"
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <input
-                type="button"
-                class="btn btn-default"
-                data-dismiss="modal"
-                value="Cancelar"
-              />
-              <input
-                type="submit"
-                class="btn btn-success acciones"
-                data-dismiss="modal"
-                data-action="add"
-                value="Aceptar"
-              />
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <ModalForm />
   </div>
 </template>
 
 <script>
+import ModalForm from "./ModalForm.vue";
+
 export default {
   name: "TableSoc",
+  components: {
+    ModalForm,
+  },
   data() {
     return {
       personasArray: [
@@ -323,8 +246,6 @@ export default {
         {
           id: 9,
           nombre: "Georgina Georgalos",
-          pais: "Ecuador",
-          edad: 31,
           ocupacion: "Recepcionista",
         },
         {
@@ -367,8 +288,53 @@ export default {
     isLogged() {
       return this.$store.state.isLogged;
     },
+    title() {
+      return this.$store.state.title;
+    },
+    action() {
+      return this.$$store.state.action;
+    },
+    showModal() {
+      return this.$store.state.showModal;
+    },
+    record() {
+      return this.$store.state.record;
+    },
   },
   methods: {
+    DelSelectedItem: function () {
+      this.showModal = true;
+    },
+    AddItem: function () {
+      this.$store.state.action = "add";
+      this.$store.state.title = "Agregar";
+      this.$store.state.record.id = 0;
+      this.$store.state.record.fullname = "";
+      this.$store.state.record.country = "";
+      this.$store.state.record.age = 0;
+      this.$store.state.record.occupation = "";
+    },
+    DeleteItem: function (id) {
+      this.$store.state.action = "del";
+      this.$store.state.title = "Eliminar";
+      this.$store.state.record.id = id;
+      this.$store.state.record.fullname = "";
+      this.$store.state.record.country = "";
+      this.$store.state.record.age = id;
+      this.$store.state.record.occupation = "";
+    },
+    UpdateItem: function (id) {
+      this.$store.state.action = "edit";
+      this.$store.state.title = "Editar";
+      this.$store.state.record.id = id;
+      this.$store.state.record.fullname = "";
+      this.$store.state.record.country = "";
+      this.$store.state.record.age = id;
+      this.$store.state.record.occupation = "";
+    },
+    toggleFilter: function () {
+      this.isFilter = !this.isFilter;
+    },
     btnSearch: function () {
       console.log("Boton Buscar");
     },
