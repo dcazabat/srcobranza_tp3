@@ -91,6 +91,7 @@ router.beforeEach((to, from, next) => {
       next({ name: 'UnAuthorized' })
     }
   } else {
+    console.log('Deslogue o Ingreso por primera vez')
     if (from.path == '/socios' || from.path == '/cobradores') {
       next({ name: 'UnAuthorized' })
     } else {
