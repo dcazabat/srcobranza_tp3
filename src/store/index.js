@@ -44,7 +44,7 @@ export default new Vuex.Store({
         id: Object.entries(payload)[0],
         fullname: Object.entries(payload)[1].nombre,
         country: Object.entries(payload)[1].pais,
-        age: Object.entries(paylaod)[1].edad,
+        age: Object.entries(payload)[1].edad,
         occupation: Object.entries(payload)[1].ocupacion
       }
     },
