@@ -2,14 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-md-6 mb-4">
       <section>
-        <form
-          @click.prevent="SubmitUserRegister"
-          class="text-center border border-warning rounded-lg bg-light p-3"
-        >
+        <form class="text-center border border-warning rounded-lg bg-light p-3">
           <!-- User ID -->
           <input
             type="text"
-            id="defaultRegisterFormFirstName"
+            id="defaultRegisterFormUserID"
             class="form-control"
             :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
             placeholder="Id de Usuario"
@@ -150,6 +147,7 @@
           <!-- Sign up button -->
           <button
             class="btn btn-info btn-block waves-effect waves-light"
+            @click.prevent="SubmitUserRegister"
             :disabled="$v.$invalid"
             type="submit"
           >
@@ -169,32 +167,38 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
 import { required, email, sameAs } from "vuelidate/lib/validators";
-import router from "../router";
+// import router from "../router";
 
 export default {
   data() {
     return {
+      userId: "",
+      userFirstName: "",
+      userLastName: "",
+      userEmail: "",
+      userPassword: "",
+      userRePassword: "",
+      userPhone: "",
       firstUp: false,
     };
   },
   computed: {
-    ...mapState(["isLogged"]),
+    // isLogged() {
+    //   return this.$store.state.isLogged;
+    // },
   },
   methods: {
-    ...mapMutations([""]),
-    ...mapGetters(["isValidUser"]),
     SubmitUserRegister() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.firstUp = true;
-        return false;
-      } else if (!this.isLogged) {
-        this.firstUp = false;
-        return false;
-      }
-      router.push({ name: "Socios" });
+      // this.$v.$touch();
+      // if (this.$v.$invalid) {
+      //   this.firstUp = true;
+      //   return false;
+      // } else if (!this.isLogged) {
+      //   this.firstUp = false;
+      //   return false;
+      // }
+      // router.push({ name: "Socios" });
     },
   },
   validations: {

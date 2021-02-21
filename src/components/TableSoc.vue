@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLogged" class="container-xl">
+  <div v-if="isLogged" class="container-xl">
     <div class="row">
       <div class="col-6 col-sm-3 col-md-3 col-lg-2 aligne-items-center">
         <span class="text-light">Filtros </span>
@@ -125,11 +125,10 @@
           <tbody>
             <tr v-for="item in personasArray" :key="item.id">
               <th>
-                <spam class="custom-checkbox"
+                <spam class="custom-checkbox" :name="'spam' + item.id"
                   ><input
                     type="checkbox"
                     :id="'checkbox' + item.id"
-                    name="options[]"
                     :value="item.id" /><label
                     :for="'checkbox' + item.id"
                   ></label
@@ -366,7 +365,7 @@ export default {
   },
   computed: {
     isLogged() {
-      return this.$store.getters.isLogged;
+      return this.$store.state.isLogged;
     },
   },
   methods: {

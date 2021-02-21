@@ -101,12 +101,13 @@
                   to="/"
                 >
                   <img
-                    src="../assets/images/login.svg"
+                    src="../assets/images/logout.svg"
                     alt=""
                     width="32"
                     height="32"
                     title="Ingresar"
-                    to="/login"
+                    to="/"
+                    @click="isLogout"
                   />
                 </router-link>
               </div>
@@ -119,12 +120,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["isLogged"]),
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
   },
-  methods: {},
+  methods: {
+    isLogout: function () {
+      this.$store.commit("logOff");
+    },
+  },
 };
 </script>
 
