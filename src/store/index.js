@@ -52,7 +52,6 @@ export default new Vuex.Store({
       state.record = payload.record
     },
     setPersons(state, payload) {
-      console.log()
       let arr=[];
       let dato={};
       for (let i = 0; i < Object.entries(payload.person).length; i++){
@@ -101,9 +100,13 @@ export default new Vuex.Store({
       state.isRegister = payload
     },
     filterPersons(state, payload) {
-      state.personas = state.personas.filter((person) => {
-        person[payload.column.toLowerCase()].toLowerCase().includes(payload.textsearch.toLowerCase())
-      });
+      let arr = [];
+      let column = payload.column.toLowerCase();
+      let textsearch = payload.textsearch.toLowerCase();
+
+      arr = state.personas.filter((person) => person[column].toLowerCase().includes(textsearch));
+      
+      state.personas=arr;
     }
   },
   actions: {
