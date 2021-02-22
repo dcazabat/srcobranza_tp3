@@ -128,7 +128,7 @@ export default {
   },
   methods: {
     isLogout: function () {
-      this.$store.commit("logOff");
+      this.$store.dispatch("logOff");
     },
   },
 };

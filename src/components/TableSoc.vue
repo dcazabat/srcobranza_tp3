@@ -22,9 +22,9 @@
           v-model="isSelectColumn"
         >
           <option selected>Columnas...</option>
-          <option value="nombre">Nombre</option>
-          <option value="pais">Pais</option>
-          <option value="ocupacion">Ocupacion</option>
+          <option value="fullName">Nombre</option>
+          <option value="country">Pais</option>
+          <option value="occupation">Ocupacion</option>
         </select>
       </div>
       <div
@@ -121,27 +121,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in personasArray" :key="item[0]">
+            <tr v-for="item in personasArray" :key="item.id">
               <th>
-                <span class="custom-checkbox"
+
+                <span class="custom-checkbox" :name="'span' + item.id"
                   ><input
                     type="checkbox"
-                    :id="item[0]"
-                    :value="item[0]" /><label :for="item[0]"></label
+                    :id="item.id"
+                    :value="item.id" /><label :for="item.id"></label
                 ></span>
               </th>
-              <td scope="row">{{ item[1].nombre | upper }}</td>
-              <td>{{ item[1].pais }}</td>
-              <td>{{ item[1].edad }}</td>
-              <td>{{ item[1].ocupacion | capitalize }}</td>
+              <td scope="row">{{ item.fullname | upper }}</td>
+              <td>{{ item.country }}</td>
+              <td>{{ item.age }}</td>
+              <td>{{ item.occupation | capitalize }}</td>
               <td>
                 <a
                   href="#showFormModal"
                   class="btn btn-danger btn-sm"
                   data-toggle="modal"
                   data-action="loadDelete"
-                  :data-id="item[0]"
-                  @click="DeleteItem(item[0])"
+                  :data-id="item.id"
+                  @click="DeleteItem(item.id)"
                   ><img
                     src="../assets/images/trash.svg"
                     width="10"
@@ -149,15 +150,15 @@
                     alt="Borrar"
                     title="Borrar"
                     data-action="loadDelete"
-                    :data-id="item[0]"
+                    :data-id="item.id"
                   /> </a
                 ><a
                   href="#showFormModal"
                   class="btn btn-warning btn-sm"
                   data-toggle="modal"
                   data-action="loadEdit"
-                  :data-id="item[0]"
-                  @click="UpdateItem(item[0])"
+                  :data-id="item.id"
+                  @click="UpdateItem(item.id)"
                   ><img
                     src="../assets/images/pencil.svg"
                     width="10"
@@ -165,7 +166,7 @@
                     alt="Editar"
                     title="Editar"
                     data-action="loadEdit"
-                    :data-id="item[0]"
+                    :data-id="item.id"
                   />
                 </a>
               </td>
@@ -311,6 +312,11 @@ export default {
     },
     btnSearch: function () {
       console.log("Boton Buscar");
+      console.log(this.isSelectColumn, this.inputSearch);
+      this.$store.dispatch("applyFilters", {
+        column: this.isSelectColumn,
+        textsearch: this.inputSearch,
+      });
     },
     AcctionsCheck: function (val) {
       // Seleccion o Desselecciona checkboxes
