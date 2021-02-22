@@ -106,12 +106,12 @@
           <thead>
             <tr>
               <th>
-                <spam class="custom-checkbox"
+                <span class="custom-checkbox"
                   ><input
                     type="checkbox"
                     id="selectAll"
                     v-model="isCheckAll" /><label for="selectAll"></label
-                ></spam>
+                ></span>
               </th>
               <th>Nombre</th>
               <th>Pais</th>
@@ -123,12 +123,12 @@
           <tbody>
             <tr v-for="item in personasArray" :key="item[0]">
               <th>
-                <spam class="custom-checkbox" :name="'spam' + item[0]"
+                <span class="custom-checkbox" :name="'span' + item[0]"
                   ><input
                     type="checkbox"
                     :id="item[0]"
                     :value="item[0]" /><label :for="item[0]"></label
-                ></spam>
+                ></span>
               </th>
               <td scope="row">{{ item[1].nombre | upper }}</td>
               <td>{{ item[1].pais }}</td>

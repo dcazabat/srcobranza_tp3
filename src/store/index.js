@@ -48,8 +48,8 @@ export default new Vuex.Store({
         occupation: payload.result.ocupacion
       }
     },
-    resetRecord(state,payload){
-      state.record=payload.record
+    resetRecord(state, payload) {
+      state.record = payload.record
     },
     setPersons(state, payload) {
       state.personas = Object.entries(payload.person);
@@ -121,7 +121,8 @@ export default new Vuex.Store({
         fetch(baseUrl + "/personas/" + payload.id + ".json", requestOptions)
           .then(response => response.json())
           .then(result => commit("setRecord", {
-            result,id:payload.id
+            result,
+            id: payload.id
           }))
           .catch(error => console.log('error', error));
       }
@@ -190,7 +191,7 @@ export default new Vuex.Store({
       myHeaders.append("Content-Type", "application/json");
 
       let raw = newUser;
-       console.log(raw)
+
       let requestOptions = {
         method: 'PATCH',
         headers: myHeaders,
@@ -198,24 +199,24 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(baseUrl+"/personas/"+payload.personId.id+".json", requestOptions)
+      fetch(baseUrl + "/personas/" + payload.personId.id + ".json", requestOptions)
         .then(response => response.json())
         .catch(error => console.log('error', error));
+      
 
     },
     postPerson(context, payload) {
-      let newPerson = {
-       edad:payload.record.edad,
-        nombre: payload.record.nombre,
-        ocupacion:payload.record.ocupacion,
-        pais:payload.record.pais
-      }
-
+      let newPerson = JSON.stringify({
+        edad: payload.record.age,
+        nombre: payload.record.fullname,
+        ocupacion: payload.record.occupation,
+        pais: payload.record.country
+      })
+      console.log(newPerson)
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
       let raw = newPerson;
-
       let requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -223,18 +224,18 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch("https://sr-cobranza-default-rtdb.firebaseio.com/personas.json", requestOptions)
+      fetch(personsUrl, requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
     postcobrador(context, payload) {
       let newCobrador = {
-        edad:payload.record.edad,
-         nombre: payload.record.nombre,
-         ocupacion:payload.record.ocupacion,
-         pais:payload.record.pais
-       };
+        edad: payload.record.edad,
+        nombre: payload.record.nombre,
+        ocupacion: payload.record.ocupacion,
+        pais: payload.record.pais
+      };
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -267,7 +268,7 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    deletePerson({commit}, payload) {
+    deletePerson(context, payload) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -280,7 +281,6 @@ export default new Vuex.Store({
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
-      commit("getAllPersons")
     },
     delCobrador(context, payload) {
       var myHeaders = new Headers();
@@ -295,6 +295,7 @@ export default new Vuex.Store({
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
+
     },
     async isValidUser({
       commit
