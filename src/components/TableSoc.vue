@@ -89,6 +89,7 @@
                 class="btn btn-success"
                 data-toggle="modal"
                 @click="AddItem"
+                disabled
               >
                 <img
                   src="../assets/images/add.svg"
@@ -110,7 +111,7 @@
                   ><input
                     type="checkbox"
                     id="selectAll"
-                    v-model="isCheckAll" /><label for="selectAll"></label
+                    v-model="isCheckAll"/><label for="selectAll"></label
                 ></span>
               </th>
               <th>Nombre</th>
@@ -124,10 +125,9 @@
             <tr v-for="item in personasArray" :key="item.id">
               <th>
                 <span class="custom-checkbox" :name="'span' + item.id"
-                  ><input
-                    type="checkbox"
-                    :id="item.id"
-                    :value="item.id" /><label :for="item.id"></label
+                  ><input type="checkbox" :id="item.id" :value="item.id"/><label
+                    :for="item.id"
+                  ></label
                 ></span>
               </th>
               <td scope="row">{{ item.fullname | upper }}</td>
@@ -240,20 +240,25 @@ export default {
     };
   },
   watch: {
-    isFilter: function (val) {
-      console.log(val);
+    isFilter: function() {
+      this.inputSearch = "";
+      this.$store.dispatch("getAllPersons");
+      this.isSelectColumn = "Columnas...";
+      this.isEnabledSearch = false;
     },
-    isSelectColumn: function (val) {
+    isSelectColumn: function(val) {
       this.inputSearch = "";
       if (val != "Columnas...") {
         this.isEnabledSearch = true;
         this.inputSearchPlaceHolder = `Buscar por ${val}`;
       } else {
+        this.inputSearch = "";
         this.isEnabledSearch = false;
         this.inputSearchPlaceHolder = `Seleccione Columna`;
+        this.$store.dispatch("getAllPersons");
       }
     },
-    isCheckAll: function (val) {
+    isCheckAll: function(val) {
       this.AcctionsCheck(val);
     },
   },
@@ -281,7 +286,7 @@ export default {
     this.$store.dispatch("getAllPersons");
   },
   methods: {
-    DelSelectedItem: function () {
+    DelSelectedItem: function() {
       let checkbox = document.getElementsByClassName("custom-checkbox");
       for (let index = 0; index < checkbox.length; index++) {
         const element = checkbox[index].children[0];
@@ -290,26 +295,26 @@ export default {
         }
       }
     },
-    AddItem: function () {
+    AddItem: function() {
       this.$store.state.action = "add";
       this.$store.state.title = "Agregar";
       this.$store.dispatch("getPersonById", { id: 0 });
     },
-    DeleteItem: function (id) {
+    DeleteItem: function(id) {
       this.$store.state.action = "del";
       this.$store.state.title = "Eliminar";
       this.$store.dispatch("getPersonById", { id });
     },
-    UpdateItem: function (id) {
+    UpdateItem: function(id) {
       console.log(id);
       this.$store.state.action = "edit";
       this.$store.state.title = "Editar";
       this.$store.dispatch("getPersonById", { id });
     },
-    toggleFilter: function () {
+    toggleFilter: function() {
       this.isFilter = !this.isFilter;
     },
-    btnSearch: function () {
+    btnSearch: function() {
       console.log("Boton Buscar");
       console.log(this.isSelectColumn, this.inputSearch);
       this.$store.dispatch("applyFilters", {
@@ -317,7 +322,7 @@ export default {
         textsearch: this.inputSearch,
       });
     },
-    AcctionsCheck: function (val) {
+    AcctionsCheck: function(val) {
       // Seleccion o Desselecciona checkboxes
       let checkbox = document.getElementsByClassName("custom-checkbox");
       for (let index = 0; index < checkbox.length; index++) {
