@@ -133,6 +133,7 @@ export default {
         default:
           break;
       }
+      this.$store.dispatch("getAllPersons");
     },
   },
   validations: {

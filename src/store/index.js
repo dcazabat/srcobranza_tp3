@@ -52,7 +52,20 @@ export default new Vuex.Store({
       state.record = payload.record
     },
     setPersons(state, payload) {
-      state.personas = Object.entries(payload.person);
+      console.log()
+      let arr=[];
+      let dato={};
+      for (let i = 0; i < Object.entries(payload.person).length; i++){
+        dato = {
+          id: Object.entries(payload.person)[i][0],
+          fullname: Object.entries(payload.person)[i][1].nombre,
+          country: Object.entries(payload.person)[i][1].pais,
+          age: Object.entries(payload.person)[i][1].edad,
+          occupation: Object.entries(payload.person)[i][1].ocupacion
+        }
+        arr.push(dato);
+      }
+      state.personas = arr
     },
     setCobrador(state, payload) {
       state.cobradores = Object.entries(payload.cobrador);
@@ -86,6 +99,11 @@ export default new Vuex.Store({
     },
     isRegistered(state, payload) {
       state.isRegister = payload
+    },
+    filterPersons(state, payload) {
+      state.personas = state.personas.filter((person) => {
+        person[payload.column.toLowerCase()].toLowerCase().includes(payload.textsearch.toLowerCase())
+      });
     }
   },
   actions: {
@@ -202,7 +220,7 @@ export default new Vuex.Store({
       fetch(baseUrl + "/personas/" + payload.personId.id + ".json", requestOptions)
         .then(response => response.json())
         .catch(error => console.log('error', error));
-      
+
 
     },
     postPerson(context, payload) {
@@ -320,6 +338,16 @@ export default new Vuex.Store({
           }
         })
         .catch(error => console.log(msgParseFetchError, error));
+    },
+    logOff({
+      commit
+    }) {
+      commit("logOff")
+    },
+    applyFilters({
+      commit
+    }, payload) {
+      commit("filterPersons", payload)
     }
   },
   getters: {
