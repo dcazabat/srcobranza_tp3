@@ -11,6 +11,16 @@ Vue.config.productionTip = false;
 Vue.use(ToggleButton)
 Vue.use(Vuelidate);
 
+// Directivas Personalizadas
+Vue.directive('focus', {
+  // Cuando el elemento enlazado se inserta en el DOM...
+  inserted: function (el) {
+    // Enfoca el elemento
+    el.focus()
+  }
+})
+
+//Filtros Personalidos
 Vue.filter('capitalize', function (value) {
   if (!value) return ''
   value = value.toString()
