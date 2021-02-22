@@ -89,7 +89,6 @@
                 class="btn btn-success"
                 data-toggle="modal"
                 @click="AddItem"
-                disabled
               >
                 <img
                   src="../assets/images/add.svg"
@@ -124,7 +123,6 @@
           <tbody>
             <tr v-for="item in personasArray" :key="item.id">
               <th>
-
                 <span class="custom-checkbox" :name="'span' + item.id"
                   ><input type="checkbox" :id="item.id" :value="item.id"/><label
                     :for="item.id"
