@@ -4,7 +4,7 @@
       <div class="modal-content">
         <form>
           <div class="modal-header">
-            <h4 class="modal-title">{{ title }} Socio</h4>
+            <h4 class="modal-title">{{ title | upper }} Socio</h4>
             <button
               type="button"
               class="close"

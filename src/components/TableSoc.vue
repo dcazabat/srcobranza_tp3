@@ -124,6 +124,7 @@
           <tbody>
             <tr v-for="item in personasArray" :key="item.id">
               <th>
+
                 <span class="custom-checkbox" :name="'span' + item.id"
                   ><input type="checkbox" :id="item.id" :value="item.id"/><label
                     :for="item.id"
