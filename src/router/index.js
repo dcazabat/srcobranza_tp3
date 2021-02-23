@@ -69,6 +69,17 @@ const routes = [
     meta: { Auth: false, title: "Sr. Cobranza - Error en Acceso" }
 
   }
+  ,
+  {
+    path: "/underconstruction",
+    name: "Underconstruction",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: underconstruction,
+    meta: { Auth: true, title: "Sr. Cobranza - Underconstruction" }
+
+  }
 ];
 
 const router = new VueRouter({
