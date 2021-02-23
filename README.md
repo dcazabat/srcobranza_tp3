@@ -8,7 +8,9 @@ Implementa **_Firebase_** como persistencia de datos. Sólo se realiza conexión
 ## Integrantes del trabajo final:
 Daniel Cazabat y Jorge Sardón
 
->Links de interés:
+---
+
+## Links de interés:
 >
 >Link al repositorio: --> https://github.com/dcazabat/pjament.git
 >
