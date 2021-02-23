@@ -1,3 +1,5 @@
+https://github.com/dcazabat/pjament/master/src/images/logo.png
+
 # TP3 - Sr Cobranza (Cazabat-Sardon)
 >Sistema de cobranza de socios.
 Con este sistema se permite realizar el **_CRUD_** necesario sobre las tareas de creación de socios como de registrar un nuevo usuario.
@@ -7,6 +9,7 @@ Implementa **_Firebase_** como persistencia de datos. Sólo se realiza conexión
 >Links de interés:
 >
 >Link al repositorio: --> https://github.com/dcazabat/pjament.git
+>
 >Link a firebase: --> https://sr-cobranza-default-rtdb.firebaseio.com
 >
 
@@ -36,8 +39,15 @@ Comando: ==> npm run serve
 ### Usuarios para el sistema
 >
 > Usuario: admin
+>
 > Contraseña: admin
 >
 
 
-### Detalle del proyecto
+### Detalle técnico del proyecto
+---
+>El poryecto esta diseñado en Vue utilizando :
+>Vue Route para el enrutamiento, 
+>Vuex como almacenamiento global de la información interna necesaria para trabajar,
+>MD5 para la encriptación de la contraseña
+>Vuetify
