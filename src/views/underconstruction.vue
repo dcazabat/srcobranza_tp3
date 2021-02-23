@@ -2,7 +2,8 @@
   <div id="B404" class="error-container mb-6">
     <h3>Opps !!!, a donde vamos !!!</h3>
     <hr />
-    <h1>401</h1>
+    <h1>UNDERCONSTRACTION</h1>
+    <p>Sección en constrcción. Vuelve pronto!</p>
     <hr />
     <router-link to="/login">
       <button class="btn btn-success">Dirijase a Login</button>
