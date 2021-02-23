@@ -9,6 +9,7 @@ import Cobradores from "../views/Cobradores.vue";
 import Login from "../views/Login.vue";
 import NotFound from '../views/404.vue';
 import UnAuthorized from '../views/401.vue'
+import Underconstruction from '../views/Underconstruction.vue'
 
 Vue.use(VueRouter);
 
@@ -72,12 +73,12 @@ const routes = [
   ,
   {
     path: "/underconstruction",
-    name: "Underconstruction",
+    name: "underconstruction",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: underconstruction,
-    meta: { Auth: true, title: "Sr. Cobranza - Underconstruction" }
+    component: Underconstruction,
+    meta: {title: "Sr. Cobranza - Underconstruction" }
 
   }
 ];
