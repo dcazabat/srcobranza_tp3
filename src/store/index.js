@@ -68,7 +68,19 @@ export default new Vuex.Store({
       state.personas = arr
     },
     setCobrador(state, payload) {
-      state.cobradores = Object.entries(payload.cobrador);
+      let arr = [];
+      let dato = {};
+      for (let i = 0; i < Object.entries(payload.cobrador).length; i++) {
+        dato = {
+          id: Object.entries(payload.cobrador)[i][0],
+          fullname: Object.entries(payload.cobrador)[i][1].nombre,
+          country: Object.entries(payload.cobrador)[i][1].pais,
+          age: Object.entries(payload.cobrador)[i][1].edad,
+          occupation: Object.entries(payload.cobrador)[i][1].ocupacion
+        }
+        arr.push(dato);
+      }
+      state.cobradores = arr;
     },
     setUsers(state, payload) {
       state.users = payload.user
@@ -176,7 +188,7 @@ export default new Vuex.Store({
     }) {
       fetch(cobradoresUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
-        .then((cobrador) => commit("setPersons", {
+        .then((cobrador) => commit("setCobrador", {
           cobrador
         }))
         .catch(error => console.log(msgParseFetchError, error));
