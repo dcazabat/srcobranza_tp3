@@ -1,9 +1,15 @@
 <template>
-  <div></div>
+  <div><Cobrador /></div>
 </template>
 
 <script>
-export default {};
+import Cobrador from "../components/Cobrador";
+
+export default {
+  components: {
+    Cobrador,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -41,12 +41,14 @@
         <div class="col col-md-12">
           <nav class="navbar navbar-expand-md navbar-dark">
             <a class="navbar-brand" href="#">
-              <img
-                class="logo"
-                width="100"
-                src="../assets/images/logo.png"
-                alt="Logo Sr Cobranza"
-              />
+              <router-link to="/">
+                <img
+                  class="img-fluid"
+                  width="100"
+                  src="../assets/images/logo.png"
+                  alt="Logo Sr Cobranza"
+                />
+              </router-link>
             </a>
             <button
               class="navbar-toggler"
@@ -62,14 +64,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#"
-                    >Socios <span class="sr-only">(current)</span></a
-                  >
+                  <router-link to="/socios" class="nav-link"
+                    >Socios <span class="sr-only">(current)</span>
+                  </router-link>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="../html/cobradores.html"
-                    >Cobradores</a
-                  >
+                  <router-link to="/cobradores" class="nav-link"
+                    >Cobradores
+                  </router-link>
                 </li>
                 <li class="nav-item dropdown">
                   <a
@@ -84,14 +86,22 @@
                     Cobranzas
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Ingreso por Cobrador</a>
-                    <a class="dropdown-item" href="#">Ingreso por Socio</a>
+                    <router-link class="dropdown-item" to="/underconstruction">
+                      Ingreso por Cobrador
+                    </router-link>
+                    <router-link class="dropdown-item" to="/underconstruction">
+                      Ingreso por Socio
+                    </router-link>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Pago en Entidad</a>
+                    <router-link class="dropdown-item" to="/underconstruction">
+                      Pago en Entidad
+                    </router-link>
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Administracion</a>
+                  <router-link to="/underconstruction" class="nav-link"
+                    >Administracion
+                  </router-link>
                 </li>
               </ul>
               <div class="col col-md-2 w-25">
