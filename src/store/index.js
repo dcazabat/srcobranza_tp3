@@ -53,9 +53,9 @@ export default new Vuex.Store({
       state.record = payload.record
     },
     setPersons(state, payload) {
-      let arr=[];
-      let dato={};
-      for (let i = 0; i < Object.entries(payload.person).length; i++){
+      let arr = [];
+      let dato = {};
+      for (let i = 0; i < Object.entries(payload.person).length; i++) {
         dato = {
           id: Object.entries(payload.person)[i][0],
           fullname: Object.entries(payload.person)[i][1].nombre,
@@ -106,8 +106,8 @@ export default new Vuex.Store({
       let textsearch = payload.textsearch.toLowerCase();
 
       arr = state.personas.filter((person) => person[column].toLowerCase().includes(textsearch));
-      
-      state.personas=arr;
+
+      state.personas = arr;
     }
   },
   actions: {
@@ -319,7 +319,9 @@ export default new Vuex.Store({
         .catch(error => console.log('error', error));
 
     },
-    async isValidUser({commit}, payload) {
+    async isValidUser({
+      commit
+    }, payload) {
       await fetch(baseUrl + "/users/" + payload.userId + ".json")
         .then(response => response.json())
         .catch(err => {
@@ -351,8 +353,11 @@ export default new Vuex.Store({
     }, payload) {
       commit("filterPersons", payload)
     },
-    createSessionStorage(context,payload){
-      localStorage.setItem("srCobranza",payload)
+    setLocalStorage(context, payload) {
+      localStorage.setItem("srCobranza", payload.userId)
+    },
+    readLocalStorage() {
+      localStorage.getItem("srCobranza")
     }
   },
   getters: {
