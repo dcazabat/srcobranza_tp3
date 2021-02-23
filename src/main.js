@@ -2,14 +2,19 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
-import Vuelidate from 'vuelidate'
-import ToggleButton from 'vue-js-toggle-button'
+
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import ToggleButton from 'vue-js-toggle-button'
+import Vuelidate from 'vuelidate'
+import vueTopprogress from 'vue-top-progress'
+
 Vue.config.productionTip = false;
+
 Vue.use(ToggleButton)
 Vue.use(Vuelidate);
+Vue.use(vueTopprogress)
 
 // Directivas Personalizadas
 Vue.directive('focus', {

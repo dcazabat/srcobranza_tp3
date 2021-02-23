@@ -134,6 +134,7 @@ export default {
           break;
       }
       this.$store.dispatch("getAllPersons");
+      this.$store.state.showProgressBar = true;
     },
   },
   validations: {

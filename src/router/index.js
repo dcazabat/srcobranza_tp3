@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import state from '../store';
+import store from '../store';
 
 import Home from "../views/Home.vue";
 import About from '../views/About.vue';
@@ -90,38 +90,71 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // mode: "history",
-  // base: process.env.BASE_URL,
-  routes
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    //console.log(to, from, savedPosition);
+    return new Promise(resolve => {
+      const position = (function () {
+        if (savedPosition) {
+          return savedPosition;
+        } else {
+          if (to.hash) {
+            return {
+              selector: to.hash
+            };
+          }
+        }
+      })();
+      router.app.$root.$once("triggerScroll", () => {
+        router.app.$nextTick(() => resolve(position));
+      });
+    });
+  }
 });
 
-router.beforeEach((to, from, next) => {
-
+router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title;
+  await store.dispatch('readLocalStorage').then(result => {
+    if (result !== null) {
+      console.log('Valor de LocalStorage :', result)
+      store.dispatch('setIsLogged');
+    }
+  })
 
-  // to and from are both route objects. must call `next`.
-
-
-  if (to.meta.Auth) {
-    if (state.isLogged && to.path != '/login') {
+  if (to.matched.some(record => record.meta.Auth)) {
+    console.log(store.state.isLogged);
+    if (store.state.isLogged) {
       next();
     } else {
-      next({ path: "/unauthorired" })
+      next({ path: "/unauthorired" });
     }
   } else {
-    if ((from.path == '/socios' || from.path == '/cobradores') && to.path == '/login') {
-      next({ path: "/unauthorired" })
-    } else {
-      next();
-    }
+    next();
   }
-})
+});
 
-router.afterEach(() => {
-  // if (localStorage.getItem('srCobranza')) {
-  //   state.isLogged = true;
-  // }
-  console.log(localStorage.getItem('srCobranza'), state.isLogged);
-})
+// router.beforeEach((to, from, next) => {
+
+//   document.title = to.meta.title;
+
+//   // to and from are both route objects. must call `next`.
+
+//   console.log(localStorage.getItem('srCobranza'), store.state.isLogged, to.meta.Auth, to.path);
+//   if (to.meta.Auth) {
+//     if (store.state.isLogged && to.path != '/login') {
+//       next();
+//     } else {
+//       next({ path: "/unauthorired" })
+//     }
+//   } else {
+//     if ((from.path == '/socios' || from.path == '/cobradores') && to.path == '/login') {
+//       next({ path: "/unauthorired" })
+//     } else {
+//       next();
+//     }
+//   }
+// })
 
 export default router;

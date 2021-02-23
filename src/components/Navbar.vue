@@ -12,11 +12,8 @@
             />
           </router-link>
         </div>
-        <div class="col col-md-6 w-75">
+        <div class="col col-md-8 w-75">
           <p class="text-center title">Sr Cobranza</p>
-        </div>
-        <div class="col col-md-2">
-          <p class="text-center h4">Donde Otros No Pueden</p>
         </div>
         <div class="col col-md-2 w-25">
           <router-link
