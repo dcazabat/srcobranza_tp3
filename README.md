@@ -1,4 +1,4 @@
-https://github.com/dcazabat/pjament/main/src/assets/images/logo.png
+https://github.com/dcazabat/pjament/src/assets/images/logo.png
 
 # TP3 - Sr Cobranza (Cazabat-Sardon)
 >Sistema de cobranza de socios.
