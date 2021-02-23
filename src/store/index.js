@@ -11,6 +11,7 @@ import {
   msgParseFetchError,
   msgWrongPwd
 } from "../assets/js/messages";
+const md5 = require('md5')
 
 Vue.use(Vuex);
 
@@ -181,7 +182,7 @@ export default new Vuex.Store({
         .catch(error => console.log(msgParseFetchError, error));
     },
     patchNewUser(context, payload) {
-      let newUser = `{"${JSON.parse(payload.user_id)}": ${JSON.stringify(payload.data)}}`;
+      let newUser = `{"${payload.user_id}": ${JSON.stringify(payload.data)}}`;
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -318,9 +319,7 @@ export default new Vuex.Store({
         .catch(error => console.log('error', error));
 
     },
-    async isValidUser({
-      commit
-    }, payload) {
+    async isValidUser({commit}, payload) {
       await fetch(baseUrl + "/users/" + payload.userId + ".json")
         .then(response => response.json())
         .catch(err => {
@@ -330,7 +329,7 @@ export default new Vuex.Store({
         .then(currentUser => {
           commit("isRegistered", true)
           this.isRegister = true
-          if (currentUser.password === payload.userPwd) {
+          if (currentUser.password === md5(payload.userPwd)) {
             commit("loggin", currentUser)
             commit("pwd_is_correct", true)
             this.isLogged = true
@@ -351,6 +350,9 @@ export default new Vuex.Store({
       commit
     }, payload) {
       commit("filterPersons", payload)
+    },
+    createSessionStorage(context,payload){
+      localStorage.setItem("srCobranza",payload)
     }
   },
   getters: {

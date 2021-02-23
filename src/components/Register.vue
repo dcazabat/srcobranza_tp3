@@ -73,7 +73,7 @@
             <small v-if="!$v.userEmail.required" class="text-danger">
               E-mail es Requerido</small
             >
-            <small v-if="!$v.userEmail.email" class="text-danger">
+            <small v-if="!$v.userEmail.myemail" class="text-danger">
               E-mail es Invalido</small
             >
           </div>
@@ -93,14 +93,20 @@
             class="form-text text-muted"
             :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
           >
-            Ingrese 8 caracteres minimo alfanumerico
+            Son entre 8 y 16 caracteres alfanumericos, con 1 numero, 1 mayuscula
+            y 1 miniscula
           </small>
           <div v-if="firstUp" class="text-left mb-0">
             <small v-if="!$v.userPassword.required" class="text-danger"
               >Contraseña Requerida</small
             >
-            <small v-if="!$v.userPassword.minLength" class="text-danger"
-              >Son 8 caracteres minimo alfanumericos</small
+            <small
+              v-if="
+                !$v.userRePassword.minLength && !$v.userRePassword.maxLength
+              "
+              class="text-danger"
+              >Son entre 8 y 16 caracteres alfanumericos, con 1 numero, 1
+              mayuscula y 1 miniscula</small
             >
           </div>
           <!-- Re-Password -->
@@ -119,14 +125,20 @@
             class="form-text text-muted"
             :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
           >
-            Ingrese 8 caracteres minimo alfanumerico
+            Son entre 8 y 16 caracteres alfanumericos, con 1 numero, 1 mayuscula
+            y 1 miniscula
           </small>
           <div v-if="firstUp" class="text-left mb-0">
             <small v-if="!$v.userRePassword.required" class="text-danger"
               >Contraseña Requerida</small
             >
-            <small v-if="!$v.userRePassword.minLength" class="text-danger"
-              >Son 8 caracteres minimo alfanumericos</small
+            <small
+              v-if="
+                !$v.userRePassword.minLength && !$v.userRePassword.maxLength
+              "
+              class="text-danger"
+              >Son entre 8 y 16 caracteres alfanumericos, con 1 numero, 1
+              mayuscula y 1 miniscula</small
             >
             <small v-if="!$v.userRePassword.sameAs" class="text-danger"
               >Contraseñas son Diferentes</small
@@ -138,7 +150,7 @@
             id="defaultRegisterPhonePassword"
             class="form-control"
             :class="{ 'mb-4': !firstUp, 'mb-0': firstUp }"
-            placeholder="Teléfono"
+            placeholder="Teléfono Ej. 1111222222"
             aria-describedby="defaultRegisterFormPhoneHelpBlock"
             name="userPhone"
             v-model.trim="userPhone"
@@ -146,7 +158,7 @@
           />
           <div v-if="!$v.userPhone.badFormat && firstUp" class="text-left mb-0">
             <small class="text-danger"
-              >Formato de Telefono Incorrecto. Ej. (1111) 11-1111</small
+              >Formato de Telefono Incorrecto. Ej. 1111222222</small
             >
           </div>
           <!-- Sign up button -->
@@ -162,6 +174,7 @@
           <button
             class="btn btn-danger btn-block waves-effect waves-light"
             type="reset"
+            @click.prevent="ResetData"
           >
             Reset Datos
           </button>
@@ -172,7 +185,14 @@
 </template>
 
 <script>
-import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
+import {
+  required,
+  sameAs,
+  minLength,
+  maxLength,
+} from "vuelidate/lib/validators";
+import { regexPhone, regexMail } from "../assets/js/regexValidators.js";
+const md5 = require("md5");
 
 export default {
   name: "Register",
@@ -189,21 +209,39 @@ export default {
     };
   },
   computed: {
-    // isLogged() {
-    //   return this.$store.state.isLogged;
-    // },
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
   },
   methods: {
+    ResetData() {
+      console.log("Reset");
+      this.userId = "";
+      this.userFirstName = "";
+      this.userLastName = "";
+      this.userEmail = "";
+      this.userPassword = "";
+      this.userRePassword = "";
+      this.userPhone = "";
+    },
     SubmitUserRegister() {
       this.$v.$touch();
-      // if (this.$v.$invalid) {
-      //   this.firstUp = true;
-      //   return false;
-      // } else if (!this.isLogged) {
-      //   this.firstUp = false;
-      //   return false;
-      // }
-      // router.push({ name: "Socios" });
+      if (this.$v.$invalid) {
+        this.firstUp = true;
+        return false;
+      } else {
+        let data = {
+          email: this.userEmail,
+          isAdmin: false,
+          lastName: this.userLastName,
+          name: this.userFirstName,
+          password: md5(this.userPassword),
+          phone: this.userPhone,
+        };
+        let newData = { user_id: this.userId, data: data };
+        this.$store.dispatch("patchNewUser", newData);
+        this.ResetData();
+      }
     },
   },
   validations: {
@@ -218,26 +256,29 @@ export default {
     },
     userEmail: {
       required,
-      email,
+      myemail: function (value) {
+        return regexMail.test(value);
+      },
     },
     userPassword: {
       required,
       minLength: minLength(8),
+      maxLength: maxLength(16),
     },
     userRePassword: {
       required,
       minLength: minLength(8),
+      maxLength: maxLength(16),
       sameAs: sameAs("userPassword"),
     },
     userPhone: {
       badFormat: function (value) {
-        //  Falta chequear con la constante de validacion
-        return typeof value === "string";
+        return regexPhone.test(value);
       },
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 </style>
