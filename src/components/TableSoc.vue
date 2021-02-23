@@ -217,6 +217,7 @@
       </div>
     </div>
     <ModalForm />
+    <vue-topprogress ref="topProgress"></vue-topprogress>
   </div>
 </template>
 
@@ -282,8 +283,19 @@ export default {
       return this.$store.state.personas;
     },
   },
+  // Ciclo de vida del Componente
   mounted() {
     this.$store.dispatch("getAllPersons");
+  },
+  updated() {
+    if (this.$store.state.showProgressBar) {
+      this.$refs.topProgress.start();
+
+      setTimeout(() => {
+        this.$store.state.showProgressBar = false;
+        this.$refs.topProgress.done();
+      }, 2000);
+    }
   },
   methods: {
     DelSelectedItem: function () {
@@ -308,6 +320,7 @@ export default {
     UpdateItem: function (id) {
       this.$store.state.action = "edit";
       this.$store.state.title = "Editar";
+      this.showProgressBar = true;
       this.$store.dispatch("getPersonById", { id });
     },
     toggleFilter: function () {

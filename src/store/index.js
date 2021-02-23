@@ -31,6 +31,7 @@ export default new Vuex.Store({
     title: '',
     action: '',
     showModal: false,
+    showProgressBar: false,
     record: {
       id: 0,
       fullname: '',
@@ -111,13 +112,14 @@ export default new Vuex.Store({
     },
     logOff(state) {
       state.isLogged = false;
-      localStorage.removeItem('srCobranza');
+      localStorage.removeItem('srCobranza')
+      localStorage.clear;
     },
     loggin(state, payload) {
-      state.currentUser = payload.currentUser
-      localStorage.setItem('srCobranza', 'Santan Me Invade');
       state.isLogged = true;
-      state.isRegister = true
+      state.isRegister = true;
+      state.currentUser = payload.currentUser;
+      localStorage.setItem('srCobranza', 'SATAN ME INVADE, JAJAJAJA !!!!!')
     },
     isRegistered(state, payload) {
       state.isRegister = payload
@@ -130,20 +132,23 @@ export default new Vuex.Store({
       arr = state.personas.filter((person) => person[column].toLowerCase().includes(textsearch));
 
       state.personas = arr;
-    }
+    },
+    setIsLogged(state) {
+      state.isLogged = true;
+    },
   },
   actions: {
-    getAllPersons({
+    async getAllPersons({
       commit
     }) {
-      fetch(personsUrl)
+      await fetch(personsUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
         .then((person) => commit("setPersons", {
           person
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getPersonById({
+    async getPersonById({
       commit
     }, payload) {
       if (payload.id === 0) {
@@ -162,7 +167,7 @@ export default new Vuex.Store({
           redirect: 'follow'
         };
 
-        fetch(baseUrl + "/personas/" + payload.id + ".json", requestOptions)
+        await fetch(baseUrl + "/personas/" + payload.id + ".json", requestOptions)
           .then(response => response.json())
           .then(result => commit("setRecord", {
             result,
@@ -171,21 +176,21 @@ export default new Vuex.Store({
           .catch(error => console.log('error', error));
       }
     },
-    getCobradoresById(context, payload) {
+    async getCobradoresById(context, payload) {
       let requestOptions = {
         method: 'GET',
         redirect: 'follow'
       };
 
-      fetch(baseUrl + "/cobradores/" + payload.id + ".json", requestOptions)
+      await fetch(baseUrl + "/cobradores/" + payload.id + ".json", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    getAllUsers({
+    async getAllUsers({
       commit
     }) {
-      fetch(userUrl)
+      await fetch(userUrl)
         .then(res => res.json())
         .catch(err => console.log(msgConexionFetchError, err))
         .then((user) => commit("setUsers", {
@@ -193,17 +198,17 @@ export default new Vuex.Store({
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    getAllCobradores({
+    async getAllCobradores({
       commit
     }) {
-      fetch(cobradoresUrl)
+      await fetch(cobradoresUrl)
         .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
         .then((cobrador) => commit("setCobrador", {
           cobrador
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
-    patchNewUser(context, payload) {
+    async patchNewUser(context, payload) {
       let newUser = `{"${payload.user_id}": ${JSON.stringify(payload.data)}}`;
 
       let myHeaders = new Headers();
@@ -218,12 +223,12 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(userUrl, requestOptions)
+      await fetch(userUrl, requestOptions)
         .then(response => response.json())
         .catch(error => console.log('error', error));
 
     },
-    updatePerson(context, payload) {
+    async updatePerson(context, payload) {
       let newUser = `{
         "edad":  ${payload.personId.age},
          "nombre":"${payload.personId.fullname}",
@@ -243,13 +248,13 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(baseUrl + "/personas/" + payload.personId.id + ".json", requestOptions)
+      await fetch(baseUrl + "/personas/" + payload.personId.id + ".json", requestOptions)
         .then(response => response.json())
         .catch(error => console.log('error', error));
 
 
     },
-    postPerson(context, payload) {
+    async postPerson(context, payload) {
       let newPerson = JSON.stringify({
         edad: payload.record.age,
         nombre: payload.record.fullname,
@@ -267,12 +272,12 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(personsUrl, requestOptions)
+      await fetch(personsUrl, requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    postcobrador(context, payload) {
+    async postcobrador(context, payload) {
       let newCobrador = {
         edad: payload.record.edad,
         nombre: payload.record.nombre,
@@ -292,12 +297,12 @@ export default new Vuex.Store({
         redirect: 'follow'
       };
 
-      fetch(cobradoresUrl, requestOptions)
+      await fetch(cobradoresUrl, requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    delUser(context, payload) {
+    async delUser(context, payload) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -306,12 +311,12 @@ export default new Vuex.Store({
         headers: myHeaders,
         redirect: 'follow'
       };
-      fetch(baseUrl + "/users/" + payload.userId + ".json", requestOptions)
+      await fetch(baseUrl + "/users/" + payload.userId + ".json", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    deletePerson(context, payload) {
+    async deletePerson(context, payload) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -320,12 +325,12 @@ export default new Vuex.Store({
         headers: myHeaders,
         redirect: 'follow'
       };
-      fetch(baseUrl + "/personas/" + payload.personId + ".json", requestOptions)
+      await fetch(baseUrl + "/personas/" + payload.personId + ".json", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     },
-    delCobrador(context, payload) {
+    async delCobrador(context, payload) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -334,7 +339,7 @@ export default new Vuex.Store({
         headers: myHeaders,
         redirect: 'follow'
       };
-      fetch(baseUrl + "/cobradores/" + payload.cobradorId + ".json", requestOptions)
+      await fetch(baseUrl + "/cobradores/" + payload.cobradorId + ".json", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -373,11 +378,16 @@ export default new Vuex.Store({
     }, payload) {
       commit("filterPersons", payload)
     },
-    setLocalStorage(context, payload) {
-      localStorage.setItem("srCobranza", payload.userId)
+    setLocalStorage() {
+      localStorage.setItem("srCobranza", 'Satan Me Invade JAJAJAJA')
     },
     readLocalStorage() {
-      localStorage.getItem("srCobranza")
+      return localStorage.getItem("srCobranza")
+    },
+    setIsLogged({
+      commit
+    }) {
+      commit('setIsLogged');
     }
   },
   getters: {
