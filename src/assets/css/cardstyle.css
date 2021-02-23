@@ -1,0 +1,36 @@
+.card-header-style {
+  background-color: rgb(41, 41, 41);
+  color: orange;
+  height: 20%;
+}
+
+#card-imagen {
+  height: 150px;
+  width: 150px;
+  border-radius: 150px;
+  border-color: green;
+  border-style: solid;
+  border-width: 2px;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+#card-imagen:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.card-title-style {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(255, 230, 0);
+  font-style: italic;
+}
+
+.card-text-style {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  color: cornflowerblue;
+}
+
+.card-bg-color {
+  background-color: rgb(20, 20, 20)!important; 
+}
