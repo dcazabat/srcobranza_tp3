@@ -4,7 +4,7 @@
     <hr />
     <h1>401</h1>
     <hr />
-    <router-link to="/login">
+    <router-link to="/login" v-if="!this.$store.state.isLogged">
       <button class="btn btn-success">Dirijase a Login</button>
     </router-link>
     <h3>Asi no llegamos a ningun lado, JAJAJAJA</h3>

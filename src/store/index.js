@@ -82,11 +82,14 @@ export default new Vuex.Store({
       let dato = {};
       for (let i = 0; i < Object.entries(payload.cobrador).length; i++) {
         dato = {
-          id: Object.entries(payload.cobrador)[i][0],
-          fullname: Object.entries(payload.cobrador)[i][1].nombre,
-          country: Object.entries(payload.cobrador)[i][1].pais,
-          age: Object.entries(payload.cobrador)[i][1].edad,
-          occupation: Object.entries(payload.cobrador)[i][1].ocupacion
+          address: Object.entries(payload.cobrador)[i][1].address,
+          age: Object.entries(payload.cobrador)[i][1].age,
+          country: Object.entries(payload.cobrador)[i][1].country,
+          dni: Object.entries(payload.cobrador)[i][1].dni,
+          email: Object.entries(payload.cobrador)[i][1].email,
+          fullname: Object.entries(payload.cobrador)[i][1].fullname,
+          gender: Object.entries(payload.cobrador)[i][1].gender,
+          phone: Object.entries(payload.cobrador)[i][1].phone
         }
         arr.push(dato);
       }
@@ -107,16 +110,13 @@ export default new Vuex.Store({
       state.pwdIsCorrect = payload;
     },
     logOff(state) {
-      console.log('Logout')
       state.isLogged = false;
-      // state.isRegister = false;
-      // state.pwdIsCorrect = false;
-      // state.currentUser = {};
-      // router.push({ path: '/' })
+      localStorage.removeItem('srCobranza');
     },
     loggin(state, payload) {
       state.currentUser = payload.currentUser
-      state.isLogged = true
+      localStorage.setItem('srCobranza', 'Santan Me Invade');
+      state.isLogged = true;
       state.isRegister = true
     },
     isRegistered(state, payload) {
@@ -256,7 +256,6 @@ export default new Vuex.Store({
         ocupacion: payload.record.occupation,
         pais: payload.record.country
       })
-      console.log(newPerson)
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -357,7 +356,6 @@ export default new Vuex.Store({
             commit("loggin", currentUser)
             commit("pwd_is_correct", true)
             this.isLogged = true
-            console.log(this.isLogged, this.isRegister)
             router.replace({
               path: "/socios"
             });

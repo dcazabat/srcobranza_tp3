@@ -99,8 +99,8 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/underconstruction" class="nav-link"
-                    >Administracion
+                  <router-link to="/about" class="nav-link"
+                    >Acerca de ...
                   </router-link>
                 </li>
               </ul>
@@ -148,7 +148,7 @@ export default {
 .title {
   text-transform: uppercase;
   background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 60px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",

@@ -12,6 +12,7 @@
             placeholder="Id de Usuario"
             name="userId"
             v-model.trim="userId"
+            v-focus
             @input="$v.userId.$touch()"
           />
           <div v-if="!$v.userId.required && firstUp" class="text-left mb-0">
@@ -215,7 +216,6 @@ export default {
   },
   methods: {
     ResetData() {
-      console.log("Reset");
       this.userId = "";
       this.userFirstName = "";
       this.userLastName = "";
