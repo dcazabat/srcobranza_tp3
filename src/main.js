@@ -32,7 +32,7 @@ Vue.filter('upper', function (value) {
 })
 
 new Vue({
-  store,
   router,
+  store,
   render: h => h(App)
 }).$mount("#app");

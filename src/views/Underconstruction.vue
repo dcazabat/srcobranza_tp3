@@ -5,9 +5,6 @@
     <h1>UNDERCONSTRACTION</h1>
     <p>Sección en constrcción. Vuelve pronto!</p>
     <hr />
-    <router-link to="/login">
-      <button class="btn btn-success">Dirijase a Login</button>
-    </router-link>
     <h3>Asi no llegamos a ningun lado</h3>
   </div>
 </template>

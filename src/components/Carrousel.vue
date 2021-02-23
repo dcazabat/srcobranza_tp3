@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLogged" class="row justify-content-center">
+  <div class="row justify-content-center">
     <div id="srcarrousel" class="carousel slide w-50" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#srcarrousel" data-slide-to="0" class="active"></li>

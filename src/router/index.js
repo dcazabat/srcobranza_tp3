@@ -4,11 +4,13 @@ import VueRouter from "vue-router";
 import state from '../store';
 
 import Home from "../views/Home.vue";
+import About from '../views/About.vue';
 import Socios from "../views/Socios.vue";
 import Cobradores from "../views/Cobradores.vue";
 import Login from "../views/Login.vue";
 import NotFound from '../views/404.vue';
 import UnAuthorized from '../views/401.vue'
+import Underconstruction from '../views/Underconstruction.vue'
 
 Vue.use(VueRouter);
 
@@ -18,6 +20,12 @@ const routes = [
     name: "Home",
     component: Home,
     meta: { Auth: false, title: "Sr. Cobranza - Home" }
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: About,
+    meta: { Auth: false, title: "Sr. Cobranza - Acerca de ..." }
   },
   {
     path: "/login",
@@ -76,8 +84,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: underconstruction,
-    meta: { Auth: true, title: "Sr. Cobranza - Underconstruction" }
+    component: Underconstruction,
+    meta: { Auth: false, title: "Sr. Cobranza - Underconstruction" }
 
   }
 ];
@@ -94,21 +102,27 @@ router.beforeEach((to, from, next) => {
 
   // to and from are both route objects. must call `next`.
 
+
   if (to.meta.Auth) {
-    if (state.isLogged && (to.path != '/login' || to.path != '/')) {
+    if (state.isLogged && to.path != '/login') {
       next();
     } else {
-      console.log('Con Auth, Sin Loguearse y no va a Login o /')
-      next({ name: 'UnAuthorized' })
+      next({ path: "/unauthorired" })
     }
   } else {
-    console.log('Deslogue o Ingreso por primera vez')
-    if (from.path == '/socios' || from.path == '/cobradores') {
-      next({ name: 'UnAuthorized' })
+    if ((from.path == '/socios' || from.path == '/cobradores') && to.path == '/login') {
+      next({ path: "/unauthorired" })
     } else {
       next();
     }
   }
+})
+
+router.afterEach(() => {
+  // if (localStorage.getItem('srCobranza')) {
+  //   state.isLogged = true;
+  // }
+  console.log(localStorage.getItem('srCobranza'), state.isLogged);
 })
 
 export default router;

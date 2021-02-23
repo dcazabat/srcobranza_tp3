@@ -11,6 +11,7 @@
             placeholder="Id de Usuario"
             name="userId"
             v-model="userId"
+            v-focus
             @input="$v.userId.$touch()"
           />
           <small id="userHelp" class="form-text text-muted"
@@ -111,7 +112,6 @@ export default {
           userId: this.userId,
           userPwd: this.userPwd,
         });
-        console.log(this.$store.state.isRegister);
         if (this.$store.state.isRegister) {
           if (!this.pwdIsCorrect) {
             this.errorInForm = true;
