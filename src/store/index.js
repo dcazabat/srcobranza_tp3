@@ -38,6 +38,16 @@ export default new Vuex.Store({
       age: 0,
       occupation: '',
     },
+    recordCobrador: {
+      address: '',
+      age: 0,
+      country: '',
+      dni: 0,
+      email: '',
+      fullname: '',
+      gender: '',
+      phone: 0
+    }
   },
   mutations: {
     setRecord(state, payload) {
