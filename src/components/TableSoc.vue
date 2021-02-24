@@ -46,7 +46,7 @@
           <button
             class="btn btn-light"
             :disabled="!isEnabledSearch"
-            @click="btnSearch"
+            @click.prevent="btnSearch"
           >
             <img
               src="../assets/images/search.svg"
@@ -209,7 +209,7 @@
                 data-dismiss="modal"
                 data-action="deleteAll"
                 value="Aceptar"
-                @click="DelSelectedItem"
+                @click.prevent="DelSelectedItem"
               />
             </div>
           </form>
@@ -248,10 +248,24 @@ export default {
       this.isEnabledSearch = false;
     },
     isSelectColumn: function (val) {
+      let msgPlaceHolder = "";
       this.inputSearch = "";
       if (val != "Columnas...") {
         this.isEnabledSearch = true;
-        this.inputSearchPlaceHolder = `Buscar por ${val}`;
+        switch (val) {
+          case "fullName":
+            msgPlaceHolder = "Nombre";
+            break;
+          case "country":
+            msgPlaceHolder = "Pais";
+            break;
+          case "occupation":
+            msgPlaceHolder = "Ocupacion";
+            break;
+          default:
+            break;
+        }
+        this.inputSearchPlaceHolder = `Buscar por ${msgPlaceHolder}`;
       } else {
         this.inputSearch = "";
         this.isEnabledSearch = false;
