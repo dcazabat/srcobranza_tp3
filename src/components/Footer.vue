@@ -1,7 +1,7 @@
 <template>
   <!-- Pie de Pagina (Footer) -->
 
-  <div>
+  <div id="footer">
     <div class="mt-3 d-flex justify-content-center">
       <!--Twitter-->
       <a
@@ -119,6 +119,9 @@ export default {
 </script>
 
 <style>
+#footer {
+  align-self: flex-end;
+}
 a {
   margin-right: 10px;
 }

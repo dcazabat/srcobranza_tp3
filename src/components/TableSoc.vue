@@ -216,7 +216,7 @@
         </div>
       </div>
     </div>
-    <ModalForm />
+    <ModalForm :inputSearch="inputSearch" :isSelectColumn="isSelectColumn" />
     <vue-topprogress ref="topProgress"></vue-topprogress>
   </div>
 </template>
@@ -287,9 +287,6 @@ export default {
     action() {
       return this.$$store.state.action;
     },
-    showModal() {
-      return this.$store.state.showModal;
-    },
     record() {
       return this.$store.state.record;
     },
@@ -301,13 +298,21 @@ export default {
   mounted() {
     this.$store.dispatch("getAllPersons");
   },
-  updated() {
+  beforeUpdate() {
     if (this.$store.state.showProgressBar) {
       this.$refs.topProgress.start();
 
       setTimeout(() => {
         this.$store.state.showProgressBar = false;
         this.$refs.topProgress.done();
+        if (this.isEnabledSearch) {
+          this.$store.dispatch("getFilterPersons", {
+            column: this.isSelectColumn,
+            textsearch: this.inputSearch,
+          });
+        } else {
+          this.$store.dispatch("getAllPersons");
+        }
       }, 2000);
     }
   },
@@ -322,26 +327,29 @@ export default {
       }
     },
     AddItem: function () {
+      this.$store.commit("setfilterState", { value: this.isFilter });
       this.$store.state.action = "add";
       this.$store.state.title = "Agregar";
       this.$store.dispatch("getPersonById", { id: 0 });
     },
     DeleteItem: function (id) {
+      this.$store.commit("setfilterState", { value: this.isFilter });
       this.$store.state.action = "del";
       this.$store.state.title = "Eliminar";
       this.$store.dispatch("getPersonById", { id });
     },
     UpdateItem: function (id) {
+      this.$store.commit("setfilterState", { value: this.isFilter });
+      this.showModal = true;
       this.$store.state.action = "edit";
       this.$store.state.title = "Editar";
-      this.showProgressBar = true;
       this.$store.dispatch("getPersonById", { id });
     },
     toggleFilter: function () {
       this.isFilter = !this.isFilter;
     },
     btnSearch: function () {
-      this.$store.dispatch("applyFilters", {
+      this.$store.dispatch("getFilterPersons", {
         column: this.isSelectColumn,
         textsearch: this.inputSearch,
       });
