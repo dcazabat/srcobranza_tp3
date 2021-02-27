@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center">
+  <div v-if="!isRegisterOK" class="row justify-content-center">
     <div class="col-md-6 mb-4">
       <section>
         <form class="text-center border border-warning rounded-lg bg-light p-3">
@@ -183,9 +183,38 @@
       </section>
     </div>
   </div>
+  <div v-else class="row justify-content-center">
+    <div class="col-md-6 mb-4 mt-3 w-25">
+      <div class="text-center border border-warning rounded-lg p-3 text-dark">
+        <p class="h3">Bienvenido</p>
+        <p class="h4">
+          <strong> {{ userLastNameOK }}, {{ userFirstNameOK }} </strong>
+        </p>
+        <p>Gracias por Registrarse !!!!</p>
+        <p class="h3">Team <strong>Sr Cobranza ©</strong></p>
+        <button
+          class="btn btn-info btn-block waves-effect waves-light"
+          @click.prevent="initSessionOK"
+          type="submit"
+        >
+          Iniciar Sessión
+        </button>
+        <!-- Reset up button -->
+        <button
+          class="btn btn-danger btn-block waves-effect waves-light"
+          type="reset"
+          @click.prevent="ResetDataOK"
+        >
+          Volver a Registrarse
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import router from "../router";
+import { userUrl } from "../assets/js/urls";
 import {
   required,
   sameAs,
@@ -207,6 +236,10 @@ export default {
       userRePassword: "",
       userPhone: "",
       firstUp: false,
+      isRegisterOK: false,
+      msgErrorReg: "",
+      userFirstNameOK: "",
+      userLastNameOK: "",
     };
   },
   computed: {
@@ -224,6 +257,10 @@ export default {
       this.userRePassword = "";
       this.userPhone = "";
     },
+    ResetDataOK() {
+      this.ResetData();
+      this.isRegisterOK = false;
+    },
     SubmitUserRegister() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -239,9 +276,44 @@ export default {
           phone: this.userPhone,
         };
         let newData = { user_id: this.userId, data: data };
-        this.$store.dispatch("patchNewUser", newData);
-        this.ResetData();
+        let newUser = `{"${newData.user_id}": ${JSON.stringify(newData.data)}}`;
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = newUser;
+        let requestOptions = {
+          method: "PATCH",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+        fetch(userUrl, requestOptions)
+          .then((response) => {
+            response.json();
+            if (response.status == 200) {
+              this.isRegisterOK = true;
+              this.userFirstNameOK = this.userFirstName;
+              this.userLastNameOK = this.userLastName;
+              this.ResetData();
+            } else {
+              this.isRegisterOK = false;
+            }
+          })
+          .catch((error) => {
+            this.msgErrorReg = `"Error en el Alta de Usuario. Error : ${error}"`;
+            console.log("error", error);
+          });
       }
+    },
+    initSessionOK() {
+      this.$store.state.currentUser = {
+        userFullname: this.userLastNameOK + this.userFirstNameOK,
+      };
+      this.$store.commit("loggin", this.$store.state.currentUser);
+      this.$store.state.isLogged = true;
+      router.replace({
+        path: "/socios",
+      });
     },
   },
   validations: {

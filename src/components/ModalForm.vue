@@ -27,6 +27,11 @@
                 v-model="record.fullname"
                 :disabled="action == 'del'"
               />
+              <div v-if="firstUp" class="text-left mb-0">
+                <small v-if="!$v.record.fullname.required" class="text-danger"
+                  >Apellido y Nombre es Requerido</small
+                >
+              </div>
             </div>
             <div class="form-group">
               <label>Pais</label>
@@ -39,6 +44,11 @@
                 v-model="record.country"
                 :disabled="action == 'del'"
               />
+              <div v-if="firstUp" class="text-left mb-0">
+                <small v-if="!$v.record.country.required" class="text-danger"
+                  >Pais es Requerido</small
+                >
+              </div>
             </div>
             <div class="form-group">
               <label>Edad</label>
@@ -53,6 +63,14 @@
                 v-model="record.age"
                 :disabled="action == 'del'"
               />
+              <div v-if="firstUp" class="text-left mb-0">
+                <small v-if="!$v.record.age.required" class="text-danger"
+                  >Edad es Requerido</small
+                >
+                <small v-if="!$v.record.age.between" class="text-danger"
+                  >La Edad debe estar entre 18 y 100 años</small
+                >
+              </div>
             </div>
             <div class="form-group">
               <label>Ocupacion</label>
@@ -73,7 +91,6 @@
               class="btn btn-default"
               data-dismiss="modal"
               value="Cancelar"
-              @click="showModal = !showModal"
             />
             <input
               type="submit"
@@ -92,12 +109,30 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import { required, between } from "vuelidate/lib/validators";
 
 export default {
   name: "FormModal",
+  props: {
+    isSelectColumn: String,
+    inputSearch: String,
+  },
   data() {
-    return {};
+    return { firstUp: false };
+  },
+  beforeUpdate() {
+    switch (this.action) {
+      case "add":
+        //Agrega un Item
+        this.firstUp = false;
+        break;
+      case "edit":
+        //Edita un Item
+        this.firstUp = true;
+        break;
+      default:
+        break;
+    }
   },
   computed: {
     title() {
@@ -105,9 +140,6 @@ export default {
     },
     action() {
       return this.$store.state.action;
-    },
-    showModal() {
-      return this.$store.state.showModal;
     },
     record() {
       return this.$store.state.record;
@@ -117,24 +149,37 @@ export default {
     RecordSave(action) {
       //Falta agregar los Fetch a  Firebase, con la estructura de Record que esta
       // en el State del Store
-      switch (action) {
-        case "add":
-          //Agrega un Item
-          this.$store.dispatch("postPerson", { record: this.record });
-          break;
-        case "del":
-          //Borra un Item
-          this.$store.dispatch("deletePerson", { personId: this.record.id });
-          break;
-        case "edit":
-          //Edita un Item
-          this.$store.dispatch("updatePerson", { personId: this.record });
-          break;
-        default:
-          break;
+      this.$v.$touch();
+      this.firstUp = true;
+      if (this.$v.$invalid) {
+        return false;
+      } else {
+        switch (action) {
+          case "add":
+            //Agrega un Item
+            this.$store.dispatch("postPerson", { record: this.record });
+            break;
+          case "del":
+            //Borra un Item
+            this.$store.dispatch("deletePerson", { personId: this.record.id });
+            break;
+          case "edit":
+            //Edita un Item
+            this.$store.dispatch("updatePerson", { personId: this.record });
+            break;
+          default:
+            break;
+        }
+        if (this.$store.state.filterState) {
+          this.$store.dispatch("getFilterPersons", {
+            column: this.isSelectColumn,
+            textsearch: this.inputSearch,
+          });
+        } else {
+          this.$store.dispatch("getAllPersons");
+        }
+        this.$store.state.showProgressBar = true;
       }
-      this.$store.dispatch("getAllPersons");
-      this.$store.state.showProgressBar = true;
     },
   },
   validations: {
@@ -147,9 +192,7 @@ export default {
       },
       age: {
         required,
-      },
-      occupation: {
-        required,
+        between: between(18, 100),
       },
     },
   },

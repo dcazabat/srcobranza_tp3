@@ -10,7 +10,7 @@
             aria-describedby="userHelp"
             placeholder="Id de Usuario"
             name="userId"
-            v-model="userId"
+            v-model.trim="userId"
             v-focus
             @input="$v.userId.$touch()"
           />
@@ -31,7 +31,7 @@
             aria-describedby="pwdHelp"
             placeholder="Contraseña"
             name="userPwd"
-            v-model="userPwd"
+            v-model.trim="userPwd"
             @input="$v.userPwd.$touch()"
           />
           <small id="pwdHelp" class="form-text text-muted"
@@ -54,19 +54,13 @@
         >
           Login
         </button>
-        <div v-if="errorInForm">
-          <small
-            v-if="!!userNotRegis && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
+        <div class="col mt4" v-if="errorInForm">
+          <small v-if="userNotRegis && firstUp" class="text-danger">
+            <hr />
             Usuario NO Registrado
           </small>
-          <small
-            v-if="!!pwdIsCorrect && firstUp"
-            class="alert alert-danger"
-            role="alert"
-          >
+          <small v-if="userPwdError && firstUp" class="text-danger">
+            <hr />
             Contraseña Incorrecta
           </small>
         </div>
@@ -77,6 +71,13 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
+import { baseUrl } from "../assets/js/urls";
+import {
+  msgConexionFetchError,
+  msgParseFetchError,
+} from "../assets/js/messages";
+import router from "../router";
+const md5 = require("md5");
 
 export default {
   name: "Login",
@@ -88,41 +89,59 @@ export default {
       userNotRegis: false,
       userPwdError: false,
       firstUp: false,
+      isRegister: false,
     };
-  },
-  computed: {
-    isLogged() {
-      return this.$store.state.isLogged;
-    },
-    isRegister() {
-      return this.$store.state.isRegister;
-    },
-    pwdIsCorrect() {
-      return this.$store.state.pwdIsCorrect;
-    },
   },
   methods: {
     SubmitUserLogin() {
       this.$v.$touch();
+      this.firstUp = true;
       if (this.$v.$invalid) {
-        this.firstUp = true;
         return false;
       } else {
-        this.$store.dispatch("isValidUser", {
-          userId: this.userId,
-          userPwd: this.userPwd,
-        });
-        if (this.$store.state.isRegister) {
-          if (!this.pwdIsCorrect) {
+        fetch(baseUrl + "/users/" + this.userId + ".json")
+          .then((response) => response.json())
+          .catch((err) => {
+            this.$store.state.isLogged = false;
+            window.alert(msgConexionFetchError, err);
+            console.log(msgConexionFetchError, err);
+          })
+          .then((currentUser) => {
+            this.isRegister = true;
+            if (currentUser.password === md5(this.userPwd)) {
+              this.$store.commit("loggin", currentUser);
+              this.$store.state.isLogged = true;
+              router.replace({
+                path: "/socios",
+              });
+            } else {
+              this.pwdIsCorrect(false);
+              this.errorInForm = true;
+              this.userNotRegis = false;
+              this.userPwdError = true;
+              this.$store.state.isLogged = false;
+            }
+          })
+          .catch((err) => {
             this.errorInForm = true;
-            this.userNotRegis = false;
-            return false;
-          }
-        } else {
-          this.errorInForm = true;
-          this.userNotRegis = true;
-          return false;
-        }
+            this.userNotRegis = true;
+            this.userPwdError = false;
+            this.$store.state.isLogged = false;
+            console.log(msgParseFetchError, err);
+          });
+      }
+    },
+    isChangeUserId() {
+      this.errorInForm = false;
+      this.userNotRegis = false;
+      this.userPwdError = false;
+    },
+    pwdIsCorrect(val) {
+      if (val) {
+        this.errorInForm = true;
+        this.userNotRegis = false;
+        this.userPwdError = true;
+        this.$store.state.isLogged = false;
       }
     },
   },
@@ -132,7 +151,7 @@ export default {
     },
     userPwd: {
       required,
-      minLength: minLength(4),
+      minLength: minLength(8),
     },
   },
 };

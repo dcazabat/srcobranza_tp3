@@ -11,26 +11,19 @@ import {
   msgParseFetchError,
   msgWrongPwd
 } from "../assets/js/messages";
-const md5 = require('md5')
 
 Vue.use(Vuex);
-
-import router from '../router'
 
 export default new Vuex.Store({
   state: {
     isLogged: false,
-    isRegister: false,
     personas: [],
     cobradores: [],
     users: {},
-    userId: "",
-    userPwd: "",
-    pwdIsCorrect: false,
     currentUser: {},
     title: '',
     action: '',
-    showModal: false,
+    filterState: false,
     showProgressBar: false,
     record: {
       id: 0,
@@ -51,6 +44,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setfilterState(state, payload) {
+      state.filterState = payload.value;
+    },
     setRecord(state, payload) {
       state.record = {
         id: payload.id,
@@ -107,9 +103,6 @@ export default new Vuex.Store({
         console.log(msgWrongPwd)
       }
     },
-    pwd_is_correct(state, payload) {
-      state.pwdIsCorrect = payload;
-    },
     logOff(state) {
       state.isLogged = false;
       localStorage.removeItem('srCobranza')
@@ -121,15 +114,22 @@ export default new Vuex.Store({
       state.currentUser = payload.currentUser;
       localStorage.setItem('srCobranza', 'SATAN ME INVADE, JAJAJAJA !!!!!')
     },
-    isRegistered(state, payload) {
-      state.isRegister = payload
-    },
     filterPersons(state, payload) {
       let arr = [];
       let column = payload.column.toLowerCase();
       let textsearch = payload.textsearch.toLowerCase();
-
-      arr = state.personas.filter((person) => person[column].toLowerCase().includes(textsearch));
+      let dato = {};
+      for (let i = 0; i < Object.entries(payload.person).length; i++) {
+        dato = {
+          id: Object.entries(payload.person)[i][0],
+          fullname: Object.entries(payload.person)[i][1].nombre,
+          country: Object.entries(payload.person)[i][1].pais,
+          age: Object.entries(payload.person)[i][1].edad,
+          occupation: Object.entries(payload.person)[i][1].ocupacion
+        }
+        arr.push(dato);
+      }
+      arr = arr.filter((person) => person[column].toLowerCase().includes(textsearch));
 
       state.personas = arr;
     },
@@ -148,6 +148,17 @@ export default new Vuex.Store({
         }))
         .catch(error => console.log(msgParseFetchError, error));
     },
+    async getFilterPersons({
+      commit
+    }, payload) {
+      await fetch(personsUrl)
+        .then(res => res.json()).catch(err => console.log(msgConexionFetchError, err))
+        .then((person) => commit("filterPersons", {
+          person: person, column: payload.column, textsearch: payload.textsearch
+        }))
+        .catch(error => console.log(msgParseFetchError, error));
+    },
+
     async getPersonById({
       commit
     }, payload) {
@@ -207,26 +218,6 @@ export default new Vuex.Store({
           cobrador
         }))
         .catch(error => console.log(msgParseFetchError, error));
-    },
-    async patchNewUser(context, payload) {
-      let newUser = `{"${payload.user_id}": ${JSON.stringify(payload.data)}}`;
-
-      let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-      let raw = newUser;
-
-      let requestOptions = {
-        method: 'PATCH',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-
-      await fetch(userUrl, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.log('error', error));
-
     },
     async updatePerson(context, payload) {
       let newUser = `{
@@ -344,29 +335,6 @@ export default new Vuex.Store({
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
-    },
-    async isValidUser({
-      commit
-    }, payload) {
-      await fetch(baseUrl + "/users/" + payload.userId + ".json")
-        .then(response => response.json())
-        .catch(err => {
-          commit("isRegistered", false);
-          console.log(msgConexionFetchError, err)
-        })
-        .then(currentUser => {
-          commit("isRegistered", true)
-          this.isRegister = true
-          if (currentUser.password === md5(payload.userPwd)) {
-            commit("loggin", currentUser)
-            commit("pwd_is_correct", true)
-            this.isLogged = true
-            router.replace({
-              path: "/socios"
-            });
-          }
-        })
-        .catch(error => console.log(msgParseFetchError, error));
     },
     logOff({
       commit
